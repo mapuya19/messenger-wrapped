@@ -47,3 +47,4 @@ export function SummarySlide({ onViewDashboard }: SummarySlideProps) {
   );
 }
 
+

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Card } from '../ui/Card';
+import { Carousel } from '../ui/Carousel';
 
 interface MediaItem {
   message: {
@@ -29,14 +30,21 @@ export function MediaGallery({ title, items, type }: MediaGalleryProps) {
     );
   }
 
+  // Show all items in carousel (or limit to a reasonable number like 20)
+  const displayItems = items.slice(0, 20);
+
   return (
     <Card>
       <h3 className="text-2xl font-bold text-white mb-6">{title}</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {items.slice(0, 9).map((item, index) => (
+      <Carousel
+        itemsPerView={{ mobile: 1, tablet: 2, desktop: 3 }}
+        showArrows={true}
+        showIndicators={true}
+      >
+        {displayItems.map((item, index) => (
           <div
             key={index}
-            className="bg-white/5 rounded-lg p-4 border border-white/10"
+            className="bg-white/5 rounded-lg p-4 border border-white/10 h-full"
           >
             {type === 'photo' && (
               <div className="aspect-video bg-white/10 rounded-lg flex items-center justify-center mb-3">
@@ -49,11 +57,11 @@ export function MediaGallery({ title, items, type }: MediaGalleryProps) {
               </div>
             )}
             {type === 'text' && item.message.content && (
-              <div className="bg-white/10 rounded-lg p-3 mb-3 text-white/90 text-sm line-clamp-3">
+              <div className="bg-white/10 rounded-lg p-3 mb-3 text-white/90 text-sm line-clamp-3 min-h-[4rem]">
                 &quot;{item.message.content}&quot;
               </div>
             )}
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between flex-wrap gap-2">
               <div className="text-lg font-semibold text-white">
                 {item.reactionCount} {item.reactionCount === 1 ? 'reaction' : 'reactions'}
               </div>
@@ -63,7 +71,7 @@ export function MediaGallery({ title, items, type }: MediaGalleryProps) {
             </div>
           </div>
         ))}
-      </div>
+      </Carousel>
     </Card>
   );
 }

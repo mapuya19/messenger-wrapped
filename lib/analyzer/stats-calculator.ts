@@ -98,3 +98,4 @@ export function calculateContributorStats(messages: ParsedMessage[]): Contributo
   );
 }
 
+
