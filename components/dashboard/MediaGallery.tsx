@@ -46,14 +46,55 @@ export function MediaGallery({ title, items, type }: MediaGalleryProps) {
             key={index}
             className="bg-white/5 rounded-lg p-4 border border-white/10 h-full"
           >
-            {type === 'photo' && (
-              <div className="aspect-video bg-white/10 rounded-lg flex items-center justify-center mb-3">
-                <span className="text-3xl">📸</span>
+            {type === 'photo' && item.message.photos?.[0] && (
+              <div className="aspect-video bg-white/10 rounded-lg overflow-hidden flex items-center justify-center mb-3 relative">
+                <img
+                  src={item.message.photos[0].uri}
+                  alt="Photo"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    const parent = target.parentElement;
+                    if (parent && !parent.querySelector('.fallback')) {
+                      const fallback = document.createElement('div');
+                      fallback.className = 'fallback absolute inset-0 flex items-center justify-center';
+                      fallback.innerHTML = '<span class="text-3xl reaction-emoji">📸</span>';
+                      parent.appendChild(fallback);
+                    }
+                  }}
+                />
               </div>
             )}
-            {type === 'video' && (
+            {type === 'photo' && !item.message.photos?.[0] && (
               <div className="aspect-video bg-white/10 rounded-lg flex items-center justify-center mb-3">
-                <span className="text-3xl">🎥</span>
+                <span className="text-3xl reaction-emoji">📸</span>
+              </div>
+            )}
+            {type === 'video' && item.message.videos?.[0] && (
+              <div className="aspect-video bg-white/10 rounded-lg overflow-hidden flex items-center justify-center mb-3 relative">
+                <video
+                  src={item.message.videos[0].uri}
+                  className="w-full h-full object-cover"
+                  controls={false}
+                  muted
+                  onError={(e) => {
+                    const target = e.target as HTMLVideoElement;
+                    target.style.display = 'none';
+                    const parent = target.parentElement;
+                    if (parent && !parent.querySelector('.fallback')) {
+                      const fallback = document.createElement('div');
+                      fallback.className = 'fallback absolute inset-0 flex items-center justify-center';
+                      fallback.innerHTML = '<span class="text-3xl reaction-emoji">🎥</span>';
+                      parent.appendChild(fallback);
+                    }
+                  }}
+                />
+              </div>
+            )}
+            {type === 'video' && !item.message.videos?.[0] && (
+              <div className="aspect-video bg-white/10 rounded-lg flex items-center justify-center mb-3">
+                <span className="text-3xl reaction-emoji">🎥</span>
               </div>
             )}
             {type === 'text' && item.message.content && (
@@ -65,7 +106,7 @@ export function MediaGallery({ title, items, type }: MediaGalleryProps) {
               <div className="text-lg font-semibold text-white">
                 {item.reactionCount} {item.reactionCount === 1 ? 'reaction' : 'reactions'}
               </div>
-              <div className="text-xl">
+              <div className="text-xl reaction-emoji">
                 {item.reactions.slice(0, 5).map(r => r.reaction).join(' ')}
               </div>
             </div>

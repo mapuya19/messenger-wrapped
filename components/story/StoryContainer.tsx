@@ -75,16 +75,16 @@ export function StoryContainer({ onComplete }: StoryContainerProps) {
   if (!wrappedData) return null;
 
   const slides = [
-    { component: <IntroSlide chatName={wrappedData.chatName} /> },
-    { component: <TotalMessagesSlide count={wrappedData.stats.totalMessages} /> },
-    { component: <MediaStatsSlide photos={wrappedData.stats.totalPhotos} videos={wrappedData.stats.totalVideos} audioMinutes={wrappedData.stats.totalAudioMinutes} /> },
+    { component: <IntroSlide chatName={wrappedData.chatName} groupPhotoUri={wrappedData.groupPhotoUri} /> },
+    { component: <TotalMessagesSlide count={wrappedData.stats.totalMessages} chatName={wrappedData.chatName} totalParticipants={wrappedData.stats.participants.length} dateRange={wrappedData.stats.dateRange} /> },
+    { component: <MediaStatsSlide photos={wrappedData.stats.totalPhotos} videos={wrappedData.stats.totalVideos} audioMinutes={wrappedData.stats.totalAudioMinutes} chatName={wrappedData.chatName} /> },
     { component: <TopContributorsSlide contributors={wrappedData.contributors.map(c => ({ name: c.name, messageCount: c.messageCount }))} /> },
     { component: <LinguisticSlide linguisticStats={wrappedData.linguisticStats} contributors={wrappedData.contributors} /> },
     { component: <TopReactedMediaSlide title="Most Reacted Photo" item={wrappedData.topReactedImages[0] || null} type="photo" /> },
     { component: <TopReactedMediaSlide title="Most Reacted Video" item={wrappedData.topReactedVideos[0] || null} type="video" /> },
     { component: <TopReactedMediaSlide title="Most Reacted Message" item={wrappedData.topReactedText[0] || null} type="text" /> },
     { component: <ChatTimelineSlide chatHistory={wrappedData.chatHistory} /> },
-    { component: <SummarySlide onViewDashboard={onComplete} /> },
+    { component: <SummarySlide wrappedData={wrappedData} onViewDashboard={onComplete} groupPhotoUri={wrappedData.groupPhotoUri} /> },
   ];
 
   const nextSlide = () => {
@@ -141,7 +141,7 @@ export function StoryContainer({ onComplete }: StoryContainerProps) {
       <div ref={slideContentRef} className="absolute inset-0">
         <AnimatePresence mode="wait" initial={false}>
           <SlideTransition key={currentSlide} direction={direction}>
-            <div className="w-full h-full flex items-center justify-center">
+            <div className="w-full h-full flex items-center justify-center p-4 sm:p-6 lg:p-8 px-14 sm:px-16 lg:px-8">
               {slides[currentSlide].component}
             </div>
           </SlideTransition>
@@ -149,7 +149,7 @@ export function StoryContainer({ onComplete }: StoryContainerProps) {
       </div>
 
       {/* Download button */}
-      <div className="absolute top-4 right-4 z-20">
+      <div className="absolute top-2 right-2 sm:top-4 sm:right-4 z-20">
         <DownloadButton
           elementRef={slideContentRef}
           filename={getFilename()}
@@ -157,7 +157,7 @@ export function StoryContainer({ onComplete }: StoryContainerProps) {
       </div>
 
       {/* Navigation */}
-      <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-2 z-10">
+      <div className="absolute bottom-4 sm:bottom-8 left-0 right-0 flex justify-center gap-1.5 sm:gap-2 z-10 px-4">
         {slides.map((_, index) => (
           <button
             key={index}
@@ -165,10 +165,10 @@ export function StoryContainer({ onComplete }: StoryContainerProps) {
               setDirection(index > currentSlide ? 'forward' : 'backward');
               setCurrentSlide(index);
             }}
-            className={`h-2 rounded-full transition-all ${
+            className={`h-1.5 sm:h-2 rounded-full transition-all ${
               index === currentSlide
-                ? 'w-8 bg-messenger-blue'
-                : 'w-2 bg-white/30 hover:bg-white/50'
+                ? 'w-6 sm:w-8 bg-messenger-blue'
+                : 'w-1.5 sm:w-2 bg-white/30 hover:bg-white/50'
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />
@@ -179,7 +179,7 @@ export function StoryContainer({ onComplete }: StoryContainerProps) {
       {currentSlide > 0 && (
         <button
           onClick={prevSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
+          className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 p-2 sm:p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-lg sm:text-xl lg:text-2xl"
           aria-label="Previous slide"
         >
           ←
@@ -188,7 +188,7 @@ export function StoryContainer({ onComplete }: StoryContainerProps) {
       {currentSlide < slides.length - 1 && (
         <button
           onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
+          className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-2 sm:p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-lg sm:text-xl lg:text-2xl"
           aria-label="Next slide"
         >
           →

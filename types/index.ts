@@ -122,6 +122,9 @@ export interface WrappedData {
   topReactedVideos: ReactionStats[];
   topReactedText: ReactionStats[];
   chatHistory: ChatHistoryDataPoint[];
+  groupPhotoUri?: string;
 }
+
+
 
 

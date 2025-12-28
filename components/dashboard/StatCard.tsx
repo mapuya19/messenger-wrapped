@@ -14,7 +14,7 @@ export function StatCard({ title, value, subtitle, icon }: StatCardProps) {
   return (
     <Card>
       <div className="space-y-2">
-        {icon && <div className="text-3xl mb-2">{icon}</div>}
+        {icon && <div className="text-3xl mb-2 reaction-emoji">{icon}</div>}
         <div className="text-sm md:text-base text-white/60">{title}</div>
         <div className="text-2xl md:text-3xl font-bold bg-gradient-messenger bg-clip-text text-transparent">
           {typeof value === 'number' ? value.toLocaleString() : value}
@@ -26,5 +26,7 @@ export function StatCard({ title, value, subtitle, icon }: StatCardProps) {
     </Card>
   );
 }
+
+
 
 

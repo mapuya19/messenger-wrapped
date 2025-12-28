@@ -59,4 +59,28 @@ body {
   background: rgba(255, 255, 255, 0.5);
 }
 
+/* Emoji rendering - ensure emojis display in their native colors */
+.emoji,
+[class*="emoji"] {
+  font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji', 'Android Emoji', 'EmojiSymbols', 'EmojiOne Mozilla', 'Twemoji Mozilla', 'Segoe UI', sans-serif;
+  font-variant-emoji: emoji;
+  font-style: normal;
+  font-weight: normal;
+  color: unset;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Ensure emojis in reaction displays render properly */
+.reaction-emoji,
+.reactions-display {
+  font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji', 'Android Emoji', 'EmojiSymbols', 'EmojiOne Mozilla', 'Twemoji Mozilla', 'Segoe UI', sans-serif;
+  font-variant-emoji: emoji;
+  color: unset;
+  display: inline-block;
+}
+
+
+
 

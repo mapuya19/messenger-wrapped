@@ -3,6 +3,25 @@ import type {
   ChatStats,
   ContributorStats,
 } from '@/types';
+import { extractEmojis } from './linguistic-analyzer';
+
+/**
+ * Check if a sender name is a system message (not a real participant)
+ */
+export function isSystemMessage(senderName: string): boolean {
+  const systemMessageNames = [
+    'Group photo',
+    'Unknown',
+    'Word effects',
+    'You',
+    'System',
+  ];
+  
+  return systemMessageNames.some(name => 
+    senderName.toLowerCase().includes(name.toLowerCase()) ||
+    senderName === name
+  );
+}
 
 /**
  * Calculate basic chat statistics
@@ -27,6 +46,11 @@ export function calculateChatStats(messages: ParsedMessage[]): ChatStats {
   let maxTimestamp = -Infinity;
 
   for (const msg of messages) {
+    // Skip system messages
+    if (isSystemMessage(msg.senderName)) {
+      continue;
+    }
+    
     participants.add(msg.senderName);
     
     totalPhotos += msg.photos.length;
@@ -57,6 +81,11 @@ export function calculateContributorStats(messages: ParsedMessage[]): Contributo
   const contributorMap = new Map<string, ContributorStats>();
 
   for (const msg of messages) {
+    // Skip system messages
+    if (isSystemMessage(msg.senderName)) {
+      continue;
+    }
+    
     let stats = contributorMap.get(msg.senderName);
     
     if (!stats) {
@@ -90,6 +119,13 @@ export function calculateContributorStats(messages: ParsedMessage[]): Contributo
         .filter(w => w.length > 0);
       
       words.forEach(word => stats.uniqueWords.add(word));
+      
+      // Count emojis
+      const emojis = extractEmojis(msg.content);
+      stats.emojiCount += emojis.length;
+      emojis.forEach(emoji => {
+        stats.emojis.set(emoji, (stats.emojis.get(emoji) || 0) + 1);
+      });
     }
   }
 
@@ -97,5 +133,7 @@ export function calculateContributorStats(messages: ParsedMessage[]): Contributo
     (a, b) => b.messageCount - a.messageCount
   );
 }
+
+
 
 
