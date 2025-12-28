@@ -123,4 +123,4 @@ Messenger Wrapped is designed with privacy as a core principle:
 
 ---
 
-Made with ❤️ by [matthewapuya](https://github.com/matthewapuya)
+Made by [mapuya19](https://github.com/mapuya19)
