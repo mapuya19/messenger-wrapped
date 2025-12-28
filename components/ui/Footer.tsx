@@ -8,7 +8,7 @@ interface FooterProps {
   githubUrl?: string;
 }
 
-export function Footer({ githubUrl = 'https://github.com/matthewapuya/messenger-wrapped' }: FooterProps) {
+export function Footer({ githubUrl = 'https://github.com/mapuya19/messenger-wrapped' }: FooterProps) {
   const currentYear = new Date().getFullYear();
 
   return (

@@ -170,7 +170,7 @@ export default function TermsOfUsePage() {
               <p className="text-white/80 leading-relaxed">
                 If you have any questions about these Terms of Use, please contact us through our{' '}
                 <a
-                  href="https://github.com/matthewapuya/messenger-wrapped"
+                  href="https://github.com/mapuya19/messenger-wrapped"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-messenger-blue hover:text-blue-400 underline"

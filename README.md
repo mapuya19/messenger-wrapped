@@ -25,7 +25,7 @@
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/matthewapuya/messenger-wrapped.git
+   git clone https://github.com/mapuya19/messenger-wrapped.git
    cd messenger-wrapped
    ```
 
