@@ -7,7 +7,7 @@ import type {
   MessengerAudioFile,
   ParsedMessage,
 } from '@/types';
-import { isSystemMessage, EMOJI_REGEX, cleanMessageText } from '@/lib/utils/message-utils';
+import { isSystemMessage, EMOJI_REGEX, cleanMessageText, normalizeReactionEmoji } from '@/lib/utils/message-utils';
 import { extractChatName as extractChatNameFromPath, readFileAsText } from '@/lib/utils/file-utils';
 
 // Re-export for backward compatibility
@@ -282,21 +282,21 @@ export function parseHTMLFile(htmlContent: string): MessengerConversation {
             const actor = reactionText.slice(emojiIndex + emoji.length).trim();
             if (actor) {
               reactions.push({
-                reaction: emoji,
+                reaction: normalizeReactionEmoji(emoji),
                 actor: actor
               });
               reactionNames.add(actor);
             } else {
               // Just an emoji, use sender as actor
               reactions.push({
-                reaction: emoji,
+                reaction: normalizeReactionEmoji(emoji),
                 actor: senderName
               });
             }
           } else if (reactionText.length <= 3 && EMOJI_REGEX.test(reactionText)) {
             // Just an emoji
             reactions.push({
-              reaction: reactionText,
+              reaction: normalizeReactionEmoji(reactionText),
               actor: senderName
             });
           }

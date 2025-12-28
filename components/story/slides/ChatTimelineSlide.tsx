@@ -70,7 +70,7 @@ export function ChatTimelineSlide({ chatHistory }: ChatTimelineSlideProps) {
     <div className={slideStyles.container}>
       <motion.h2
         {...slideAnimations.fadeInUp}
-        className={slideStyles.heading}
+        className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4 sm:mb-6 lg:mb-8 text-center px-4"
       >
         Chat Activity Over Time
       </motion.h2>
@@ -79,7 +79,7 @@ export function ChatTimelineSlide({ chatHistory }: ChatTimelineSlideProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-6xl h-48 lg:h-96 relative"
+        className="w-full max-w-6xl h-48 sm:h-64 md:h-80 lg:h-96 relative px-4"
       >
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData}>

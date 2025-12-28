@@ -1,6 +1,6 @@
 import type { ParsedMessage, WrappedData, ChatHistoryDataPoint } from '@/types';
 import { calculateChatStats, calculateContributorStats, isSystemMessage } from './stats-calculator';
-import { calculateAllLinguisticStats } from './linguistic-analyzer';
+import { calculateAllLinguisticStats, calculateMostUsedWords } from './linguistic-analyzer';
 import {
   calculateReactionStats,
   getTopReactedImages,
@@ -122,6 +122,9 @@ export function analyzeChatData(
   // Calculate linguistic stats
   const linguisticStats = calculateAllLinguisticStats(contributors, messages);
   
+  // Calculate most used words
+  const mostUsedWords = calculateMostUsedWords(contributors, messages, allParticipants);
+  
   // Calculate reaction stats
   const allReactionStats = calculateReactionStats(messages);
   const topReactedImages = getTopReactedImages(allReactionStats, 10);
@@ -136,6 +139,7 @@ export function analyzeChatData(
     stats,
     contributors,
     linguisticStats,
+    mostUsedWords,
     topReactedImages,
     topReactedVideos,
     topReactedText,

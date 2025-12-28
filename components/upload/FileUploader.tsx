@@ -4,7 +4,7 @@ import React, { useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '../ui/Button';
 import { ProgressBar } from '../ui/ProgressBar';
-import { extractZipFile, findMessageFiles, getAvailableChats, readDirectory } from '@/lib/utils/file-utils';
+import { extractZipFile, findMessageFiles, getAvailableChats } from '@/lib/utils/file-utils';
 import { parseMessengerFile, mergeMessages, parseJSONFile, parseHTMLFile, readFileAsText, extractChatName } from '@/lib/utils/messenger-parser';
 import type { ParsedMessage, MessengerConversation } from '@/types';
 
@@ -13,7 +13,6 @@ type ConversationWithGroupPhoto = MessengerConversation & { groupPhotoUri?: stri
 import { analyzeChatData } from '@/lib/analyzer';
 import { useChatData } from '@/contexts/ChatDataContext';
 import { useRouter } from 'next/navigation';
-import { useDeviceDetection } from '@/hooks/useDeviceDetection';
 
 export function FileUploader() {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -27,7 +26,6 @@ export function FileUploader() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { dispatch } = useChatData();
   const router = useRouter();
-  const { supportsFileSystemAPI } = useDeviceDetection();
 
   const processZipFile = useCallback(async (file: File) => {
     try {
@@ -367,61 +365,6 @@ export function FileUploader() {
     }
   };
 
-  const handleSelectFolder = async () => {
-    // Check if API is available
-    if (!('showDirectoryPicker' in window)) {
-      dispatch({
-        type: 'SET_ERROR',
-        payload: 'File System Access API is not supported in this browser. Please use the zip upload option.',
-      });
-      return;
-    }
-
-    try {
-      setIsProcessing(true);
-      setProgress(0);
-
-      // Try to use the API - this will fail if blocked
-      // @ts-expect-error - showDirectoryPicker is not in TypeScript types yet
-      const dirHandle = await window.showDirectoryPicker({
-        mode: 'read',
-      });
-      
-      setProgress(10);
-
-      // Read all files from directory
-      const files = await readDirectory(dirHandle);
-      setExtractedFiles(files);
-      setProgress(30);
-
-      // Process the files
-      await processFiles(files);
-    } catch (error) {
-      // Check if user cancelled the dialog (AbortError)
-      if (error instanceof DOMException && error.name === 'AbortError') {
-        // User cancelled - this is expected behavior, don't show error
-        setIsProcessing(false);
-        return;
-      }
-      
-      // Check if it's a permission/security error
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      if (errorMessage.includes('permission') || errorMessage.includes('not allowed') || errorMessage.includes('SecurityError')) {
-        dispatch({
-          type: 'SET_ERROR',
-          payload: 'File System Access API is blocked. Please use the zip upload option instead.',
-        });
-      } else {
-        console.error('Error processing folder:', error);
-        dispatch({
-          type: 'SET_ERROR',
-          payload: errorMessage || 'Failed to process folder. Please try the zip upload option.',
-        });
-      }
-      setIsProcessing(false);
-    }
-  };
-
   const handleFileSelect = async (file: File) => {
     if (file.type === 'application/zip' || file.name.endsWith('.zip')) {
       processZipFile(file);
@@ -458,36 +401,6 @@ export function FileUploader() {
 
   return (
     <div className="w-full space-y-4">
-      {/* Folder picker button (if supported) */}
-      {supportsFileSystemAPI && (
-        <div className="space-y-2">
-          <Button
-            onClick={handleSelectFolder}
-            disabled={isProcessing}
-            size="lg"
-            variant="secondary"
-            className="w-full"
-          >
-            {isProcessing ? 'Processing...' : '📁 Select Folder'}
-          </Button>
-          <p className="text-white/40 text-xs text-center">
-            Navigate to <code className="bg-white/10 px-1 rounded">messages/inbox/[group_name]</code>
-          </p>
-        </div>
-      )}
-
-      {/* Divider if folder picker is shown */}
-      {supportsFileSystemAPI && (
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-white/20" />
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="px-4 bg-messenger-dark text-white/60">OR</span>
-          </div>
-        </div>
-      )}
-
       {/* Chat selector (if multiple chats found) */}
       <AnimatePresence mode="wait">
         {availableChats.length > 1 && !selectedChat ? (

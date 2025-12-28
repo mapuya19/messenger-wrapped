@@ -39,6 +39,20 @@ export function extractEmojis(text: string): string[] {
 }
 
 /**
+ * Normalize reaction emojis - convert symbols to proper emojis
+ * For example, convert star symbol (★) to star emoji (⭐)
+ */
+export function normalizeReactionEmoji(emoji: string): string {
+  // Map of symbol characters to their emoji equivalents
+  const symbolToEmoji: Record<string, string> = {
+    '★': '⭐',  // Black star symbol to star emoji
+    '☆': '⭐',  // White star symbol to star emoji
+  };
+  
+  return symbolToEmoji[emoji] || emoji;
+}
+
+/**
  * Clean text content by removing reaction-related patterns
  */
 export function cleanMessageText(text: string, reactionNames: Set<string>): string {
@@ -50,8 +64,9 @@ export function cleanMessageText(text: string, reactionNames: Set<string>): stri
   });
   
   // Remove reaction text patterns and clean up
+  // Match "[Name] reacted [emoji] to your/their/a message" with flexible name matching
   cleaned = cleaned
-    .replace(/\w+\s+reacted\s+[^\s]+\s+to\s+your\s+message/gi, '')
+    .replace(/.+\s+reacted\s+[\u{1F300}-\u{1F9FF}\u{2600}-\u{27FF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}❤️👍👎😂😮😢😡🔥💯🙏🎉💔🤔🥰😍🤣😭💀🙄😏🥺✨💕🤷‍♂️🤷‍♀️🤷♥️★☆]+\s+to\s+(your|their|a)\s+message/giu, '')
     .replace(/This message was unsent/gi, '')
     .replace(EMOJI_REGEX, '') // Remove standalone emojis (likely reactions)
     .replace(/\s+/g, ' ')

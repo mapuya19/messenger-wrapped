@@ -116,7 +116,7 @@ export function Carousel({
   }
 
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative ${showArrows && totalSlides > 1 ? 'mx-12 sm:mx-16 md:mx-20 lg:mx-24' : ''} ${className}`}>
       {/* Carousel Container */}
       <div
         ref={scrollContainerRef}
@@ -153,10 +153,11 @@ export function Carousel({
             onClick={prevSlide}
             disabled={currentIndex === 0}
             className={`
-              absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-6
+              absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 sm:-translate-x-8 md:-translate-x-12 lg:-translate-x-16
               bg-white/10 hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed
               rounded-full p-2 md:p-3 transition-all z-10
               backdrop-blur-sm border border-white/20
+              shadow-lg
             `}
             aria-label="Previous slide"
           >
@@ -178,10 +179,11 @@ export function Carousel({
             onClick={nextSlide}
             disabled={currentIndex >= maxIndex}
             className={`
-              absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-6
+              absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 sm:translate-x-8 md:translate-x-12 lg:translate-x-16
               bg-white/10 hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed
               rounded-full p-2 md:p-3 transition-all z-10
               backdrop-blur-sm border border-white/20
+              shadow-lg
             `}
             aria-label="Next slide"
           >

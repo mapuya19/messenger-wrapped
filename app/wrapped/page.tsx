@@ -26,8 +26,13 @@ export default function WrappedPage() {
   }
 
   if (showDashboard) {
-    return <DashboardView />;
+    return <DashboardView onBack={() => setShowDashboard(false)} />;
   }
 
-  return <StoryContainer onComplete={() => setShowDashboard(true)} />;
+  return (
+    <StoryContainer
+      onComplete={() => setShowDashboard(true)}
+      onExit={() => router.push('/')}
+    />
+  );
 }

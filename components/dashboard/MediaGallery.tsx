@@ -3,6 +3,7 @@
 import React from 'react';
 import { Card } from '../ui/Card';
 import { Carousel } from '../ui/Carousel';
+import { normalizeReactionEmoji } from '@/lib/utils/message-utils';
 
 interface MediaItem {
   message: {
@@ -103,13 +104,17 @@ export function MediaGallery({ title, items, type }: MediaGalleryProps) {
                 &quot;{item.message.content}&quot;
               </div>
             )}
-            <div className="flex items-center justify-between flex-wrap gap-2">
-              <div className="text-lg font-semibold text-white">
+            <div className="space-y-2">
+              <div className="text-lg font-semibold text-white text-center">
                 {item.reactionCount} {item.reactionCount === 1 ? 'reaction' : 'reactions'}
               </div>
-              <div className="text-xl reaction-emoji">
-                {item.reactions.slice(0, 5).map(r => r.reaction).join(' ')}
-              </div>
+              {item.reactions.length > 0 && (
+                <div className="w-full flex justify-center items-center gap-1 flex-wrap">
+                  {item.reactions.map((r, idx) => (
+                    <span key={idx} className="text-xl reaction-emoji">{normalizeReactionEmoji(r.reaction)}</span>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         ))}

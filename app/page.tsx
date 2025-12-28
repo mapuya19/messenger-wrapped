@@ -33,17 +33,6 @@ const itemVariants = {
   }
 };
 
-const listItemVariants = {
-  hidden: { opacity: 0, x: -10 },
-  visible: (i: number) => ({
-    opacity: 1,
-    x: 0,
-    transition: {
-      delay: i * 0.1,
-      duration: 0.3
-    }
-  })
-};
 
 function HomeContent() {
   const { state, dispatch } = useChatData();
@@ -115,55 +104,7 @@ function HomeContent() {
       </motion.div>
 
       <div className="max-w-4xl mx-auto mb-12">
-        <Card delay={0.2} className="mb-8">
-          <motion.div 
-            className="space-y-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-          >
-            <motion.h2 
-              className="text-2xl font-bold text-white"
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.5 }}
-            >
-              🔒 Your Privacy Matters
-            </motion.h2>
-            <div className="space-y-2 text-white/80">
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6 }}
-              >
-                All processing happens <strong>entirely in your browser</strong>. Your chat data never leaves your device.
-              </motion.p>
-              <motion.ul 
-                className="list-disc list-inside space-y-1 ml-4"
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-              >
-                {[
-                  'No data is uploaded to any server',
-                  'No external API calls with your data',
-                  'No analytics tracking your messages',
-                  'Everything runs locally on your machine'
-                ].map((item, i) => (
-                  <motion.li
-                    key={i}
-                    custom={i}
-                    variants={listItemVariants}
-                  >
-                    {item}
-                  </motion.li>
-                ))}
-              </motion.ul>
-            </div>
-          </motion.div>
-        </Card>
-
-        <Card delay={0.3}>
+        <Card delay={0.2}>
           <motion.div 
             className="space-y-6"
             initial={{ opacity: 0 }}
@@ -187,15 +128,39 @@ function HomeContent() {
               >
                 <motion.div variants={itemVariants}>
                   <h3 className="font-semibold text-white mb-2">1. Download Your Messenger Data</h3>
-                  <p className="text-sm">
-                    Go to Facebook Settings → Your Facebook Information → Download Your Information.
-                    Select &quot;Messages&quot; and choose JSON format. Download the zip file.
-                  </p>
+                  <div className="space-y-3 text-sm">
+                    <p>
+                      Visit{' '}
+                      <a 
+                        href="https://accountscenter.facebook.com/info_and_permissions/dyi" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-messenger-blue hover:text-blue-400 underline"
+                      >
+                        Facebook&apos;s Download Your Information page
+                      </a>
+                      {' '}to request your data.
+                    </p>
+                    <div className="space-y-2 ml-4">
+                      <p className="font-medium text-white">Follow these steps:</p>
+                      <ol className="list-decimal list-inside space-y-1.5 ml-2">
+                        <li>Click <strong>&quot;Create Export&quot;</strong></li>
+                        <li>Select <strong>&quot;Facebook Profile&quot;</strong></li>
+                        <li>Choose <strong>&quot;Export to device&quot;</strong></li>
+                        <li>Click <strong>&quot;Customize information&quot;</strong> and <strong>only select &quot;Messages&quot;</strong></li>
+                        <li>Set <strong>Date range</strong> to <strong>&quot;Last year&quot;</strong></li>
+                        <li>Set <strong>Format</strong> to <strong>&quot;JSON&quot;</strong> (HTML works too)</li>
+                        <li>Set <strong>Media quality</strong> to <strong>&quot;Medium&quot;</strong></li>
+                        <li>Click <strong>&quot;Create Export&quot;</strong> and wait for Facebook to prepare your data</li>
+                        <li>Download the zip file when ready</li>
+                      </ol>
+                    </div>
+                  </div>
                 </motion.div>
                 <motion.div variants={itemVariants}>
                   <h3 className="font-semibold text-white mb-2">2. Upload Your Data</h3>
                   <p className="text-sm">
-                    You can either select a folder directly (Chrome, Edge, Opera, Brave - navigate to messages/inbox/[group_name]) or upload the zip file (works in all browsers). Both methods process your data entirely locally.
+                    Upload the zip file you downloaded from Facebook. Your data is processed entirely locally in your browser.
                   </p>
                 </motion.div>
                 <motion.div variants={itemVariants}>
@@ -294,7 +259,7 @@ function HomeContent() {
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-messenger-dark">
+    <main className="flex-1 bg-messenger-dark">
       <div className="container mx-auto px-4 py-12 md:py-20">
         <HomeContent />
       </div>

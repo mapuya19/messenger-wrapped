@@ -46,12 +46,12 @@ export function TotalMessagesSlide({ count, chatName, totalParticipants, dateRan
     <div ref={containerRef} className={slideStyles.container}>
       <motion.div
         {...slideAnimations.scaleInSpring}
-        className="space-y-6 w-full max-w-5xl text-center"
+        className="space-y-4 sm:space-y-6 w-full max-w-5xl text-center px-4"
       >
         <motion.p
           {...slideAnimations.fadeInDown}
           transition={{ delay: 0.3 }}
-          className="text-xl sm:text-2xl lg:text-3xl text-white/80"
+          className="text-base sm:text-xl md:text-2xl lg:text-3xl text-white/80"
         >
           <span className="font-semibold text-white">{chatName}</span> sent a total of
         </motion.p>
@@ -59,14 +59,14 @@ export function TotalMessagesSlide({ count, chatName, totalParticipants, dateRan
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.5, type: 'spring', stiffness: 200 }}
-          className={`text-6xl lg:text-9xl font-bold ${slideStyles.gradientText}`}
+          className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-9xl font-bold ${slideStyles.gradientText}`}
         >
           {displayCount.toLocaleString()}
         </motion.div>
         <motion.p
           {...slideAnimations.fadeInUp}
           transition={{ delay: 0.7 }}
-          className="text-xl sm:text-2xl lg:text-3xl text-white/80"
+          className="text-base sm:text-xl md:text-2xl lg:text-3xl text-white/80"
         >
           messages
         </motion.p>
@@ -75,7 +75,7 @@ export function TotalMessagesSlide({ count, chatName, totalParticipants, dateRan
         <motion.div
           {...slideAnimations.fadeInDown}
           transition={{ delay: 0.9 }}
-          className="flex flex-wrap justify-center gap-4 lg:gap-6 mt-8 text-sm lg:text-base text-white/60"
+          className="flex flex-wrap justify-center gap-3 sm:gap-4 lg:gap-6 mt-6 sm:mt-8 text-xs sm:text-sm md:text-base text-white/60"
         >
           {totalParticipants && (
             <div>

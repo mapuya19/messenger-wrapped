@@ -101,6 +101,11 @@ export interface LinguisticStats {
   };
 }
 
+export interface MostUsedWord {
+  word: string;
+  count: number;
+}
+
 export interface ReactionStats {
   message: ParsedMessage;
   reactionCount: number;
@@ -118,6 +123,7 @@ export interface WrappedData {
   stats: ChatStats;
   contributors: ContributorStats[];
   linguisticStats: Map<string, LinguisticStats>;
+  mostUsedWords: Map<string, MostUsedWord>;
   topReactedImages: ReactionStats[];
   topReactedVideos: ReactionStats[];
   topReactedText: ReactionStats[];
