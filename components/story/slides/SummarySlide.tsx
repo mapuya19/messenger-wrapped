@@ -27,7 +27,7 @@ export function SummarySlide({ wrappedData, onViewDashboard, groupPhotoUri }: Su
       <motion.div
         {...slideAnimations.scaleIn}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-2xl lg:max-w-6xl space-y-6 lg:space-y-8"
+        className="w-full max-w-2xl lg:max-w-6xl space-y-4 sm:space-y-6 lg:space-y-8"
       >
         {/* Header Section */}
         <motion.div
@@ -42,6 +42,7 @@ export function SummarySlide({ wrappedData, onViewDashboard, groupPhotoUri }: Su
               transition={{ delay: 0.15, type: 'spring', stiffness: 200 }}
               className="flex justify-center"
             >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={groupPhotoUri}
                 alt="Group photo"
@@ -55,7 +56,7 @@ export function SummarySlide({ wrappedData, onViewDashboard, groupPhotoUri }: Su
           <motion.h2
             {...slideAnimations.fadeInUp}
             transition={{ delay: 0.2 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight"
+            className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight"
           >
             That&apos;s Your
             <br />
@@ -68,15 +69,15 @@ export function SummarySlide({ wrappedData, onViewDashboard, groupPhotoUri }: Su
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6"
         >
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.35 }}
-            className={`${slideStyles.card} p-6 sm:p-8`}
+            className={`${slideStyles.card} p-4 sm:p-6 lg:p-8`}
           >
-            <div className={`text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-bold ${slideStyles.gradientText} mb-2`}>
+            <div className={`text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold ${slideStyles.gradientText} mb-2`}>
               {stats.totalMessages.toLocaleString()}
             </div>
             <div className="text-sm sm:text-base text-white/70 font-medium">Messages</div>
@@ -86,9 +87,9 @@ export function SummarySlide({ wrappedData, onViewDashboard, groupPhotoUri }: Su
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className={`${slideStyles.card} p-6 sm:p-8`}
+            className={`${slideStyles.card} p-4 sm:p-6 lg:p-8`}
           >
-            <div className={`text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-bold ${slideStyles.gradientText} mb-2`}>
+            <div className={`text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold ${slideStyles.gradientText} mb-2`}>
               {stats.totalPhotos.toLocaleString()}
             </div>
             <div className="text-sm sm:text-base text-white/70 font-medium">Photos</div>
@@ -98,9 +99,9 @@ export function SummarySlide({ wrappedData, onViewDashboard, groupPhotoUri }: Su
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.45 }}
-            className={`${slideStyles.card} p-6 sm:p-8`}
+            className={`${slideStyles.card} p-4 sm:p-6 lg:p-8`}
           >
-            <div className={`text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-bold ${slideStyles.gradientText} mb-2`}>
+            <div className={`text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold ${slideStyles.gradientText} mb-2`}>
               {stats.totalVideos.toLocaleString()}
             </div>
             <div className="text-sm sm:text-base text-white/70 font-medium">Videos</div>
@@ -110,9 +111,9 @@ export function SummarySlide({ wrappedData, onViewDashboard, groupPhotoUri }: Su
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className={`${slideStyles.card} p-6 sm:p-8`}
+            className={`${slideStyles.card} p-4 sm:p-6 lg:p-8`}
           >
-            <div className="text-2xl sm:text-3xl lg:text-3xl xl:text-4xl font-bold text-white mb-2 truncate">
+            <div className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-white mb-2 truncate">
               {topContributor?.name || 'N/A'}
             </div>
             <div className="text-sm sm:text-base text-white/70 font-medium">Top Contributor</div>
@@ -120,17 +121,17 @@ export function SummarySlide({ wrappedData, onViewDashboard, groupPhotoUri }: Su
         </motion.div>
         
         {/* Champions and Reactions - Side by side on desktop */}
-        <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 lg:justify-center">
+        <div className="flex flex-col lg:flex-row gap-3 sm:gap-4 lg:gap-6 lg:justify-center">
           {/* Champions Section */}
           {(wordsmith.name || emojiChampion.name || linguisticChampion.name) && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.55 }}
-              className="flex-1 lg:max-w-md space-y-3"
+              className="flex-1 lg:max-w-md space-y-2 sm:space-y-3"
             >
-              <div className="text-lg sm:text-xl text-white/80 font-semibold mb-3"><span className="reaction-emoji">🏆</span> Champions</div>
-              <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
+              <div className="text-base sm:text-lg lg:text-xl text-white/80 font-semibold mb-2 sm:mb-3"><span className="reaction-emoji">🏆</span> Champions</div>
+              <div className="flex flex-wrap justify-center gap-2 sm:gap-3 lg:gap-4">
                 {wordsmith.name && (
                   <motion.div
                     initial={{ scale: 0.8, opacity: 0 }}
@@ -150,9 +151,9 @@ export function SummarySlide({ wrappedData, onViewDashboard, groupPhotoUri }: Su
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ delay: 0.65 }}
-                    className={`${slideStyles.card} px-5 py-3 sm:px-6 sm:py-4`}
+                    className={`${slideStyles.card} px-4 py-2 sm:px-5 sm:py-3 lg:px-6 lg:py-4`}
                   >
-                    <div className="text-lg sm:text-xl font-bold text-white truncate max-w-[140px] sm:max-w-none">
+                    <div className="text-base sm:text-lg lg:text-xl font-bold text-white truncate max-w-[120px] sm:max-w-none">
                       {emojiChampion.name}
                     </div>
                     <div className="text-xs sm:text-sm text-white/60 mt-1">Emoji Champ</div>
@@ -164,9 +165,9 @@ export function SummarySlide({ wrappedData, onViewDashboard, groupPhotoUri }: Su
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ delay: 0.7 }}
-                    className={`${slideStyles.card} px-5 py-3 sm:px-6 sm:py-4`}
+                    className={`${slideStyles.card} px-4 py-2 sm:px-5 sm:py-3 lg:px-6 lg:py-4`}
                   >
-                    <div className="text-lg sm:text-xl font-bold text-white truncate max-w-[140px] sm:max-w-none">
+                    <div className="text-base sm:text-lg lg:text-xl font-bold text-white truncate max-w-[120px] sm:max-w-none">
                       {linguisticChampion.name}
                     </div>
                     <div className="text-xs sm:text-sm text-white/60 mt-1">Linguistic Champ</div>
@@ -182,10 +183,10 @@ export function SummarySlide({ wrappedData, onViewDashboard, groupPhotoUri }: Su
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.75 }}
-              className={`${slideStyles.card} flex-1 lg:max-w-md p-5 sm:p-6 space-y-3`}
+              className={`${slideStyles.card} flex-1 lg:max-w-md p-4 sm:p-5 lg:p-6 space-y-2 sm:space-y-3`}
             >
-              <div className="text-lg sm:text-xl text-white/90 font-semibold mb-2"><span className="reaction-emoji">🔥</span> Top Reactions</div>
-              <div className="space-y-2 text-sm sm:text-base text-white/70">
+              <div className="text-base sm:text-lg lg:text-xl text-white/90 font-semibold mb-2"><span className="reaction-emoji">🔥</span> Top Reactions</div>
+              <div className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm lg:text-base text-white/70">
                 {topReactedImages.length > 0 && (
                   <motion.div
                     initial={{ x: -20, opacity: 0 }}
@@ -228,9 +229,9 @@ export function SummarySlide({ wrappedData, onViewDashboard, groupPhotoUri }: Su
         <motion.div
           {...slideAnimations.fadeInDown}
           transition={{ delay: 0.95 }}
-          className="pt-2"
+          className="pt-1 sm:pt-2"
         >
-          <Button onClick={onViewDashboard} size="lg" className="text-base sm:text-lg px-8 sm:px-10 py-3 sm:py-4">
+          <Button onClick={onViewDashboard} size="lg" className="text-sm sm:text-base lg:text-lg px-6 sm:px-8 lg:px-10 py-2.5 sm:py-3 lg:py-4">
             View Full Dashboard
           </Button>
         </motion.div>

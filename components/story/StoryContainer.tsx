@@ -11,7 +11,7 @@ import { LinguisticSlide } from './slides/LinguisticSlide';
 import { TopReactedMediaSlide } from './slides/TopReactedMediaSlide';
 import { ChatTimelineSlide } from './slides/ChatTimelineSlide';
 import { SummarySlide } from './slides/SummarySlide';
-import { useChatData } from '@/context/ChatDataContext';
+import { useChatData } from '@/contexts/ChatDataContext';
 import { DownloadButton } from '@/components/ui/DownloadButton';
 
 interface StoryContainerProps {
@@ -26,6 +26,7 @@ export function StoryContainer({ onComplete }: StoryContainerProps) {
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const slideContentRef = useRef<HTMLDivElement>(null);
+  const currentSlideRef = useRef<HTMLDivElement>(null);
 
   const wrappedData = state.wrappedData;
   const SLIDE_COUNT = 10; // Total number of slides
@@ -141,7 +142,10 @@ export function StoryContainer({ onComplete }: StoryContainerProps) {
       <div ref={slideContentRef} className="absolute inset-0">
         <AnimatePresence mode="wait" initial={false}>
           <SlideTransition key={currentSlide} direction={direction}>
-            <div className="w-full h-full flex items-center justify-center p-4 sm:p-6 lg:p-8 px-14 sm:px-16 lg:px-8">
+            <div 
+              ref={currentSlideRef}
+              className="w-full h-full flex items-center justify-center p-4 sm:p-6 lg:p-8"
+            >
               {slides[currentSlide].component}
             </div>
           </SlideTransition>
@@ -151,7 +155,7 @@ export function StoryContainer({ onComplete }: StoryContainerProps) {
       {/* Download button */}
       <div className="absolute top-2 right-2 sm:top-4 sm:right-4 z-20">
         <DownloadButton
-          elementRef={slideContentRef}
+          elementRef={currentSlideRef}
           filename={getFilename()}
         />
       </div>

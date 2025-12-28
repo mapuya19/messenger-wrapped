@@ -4,24 +4,10 @@ import type {
   ContributorStats,
 } from '@/types';
 import { extractEmojis } from './linguistic-analyzer';
+import { isSystemMessage } from '@/lib/utils/message-utils';
 
-/**
- * Check if a sender name is a system message (not a real participant)
- */
-export function isSystemMessage(senderName: string): boolean {
-  const systemMessageNames = [
-    'Group photo',
-    'Unknown',
-    'Word effects',
-    'You',
-    'System',
-  ];
-  
-  return systemMessageNames.some(name => 
-    senderName.toLowerCase().includes(name.toLowerCase()) ||
-    senderName === name
-  );
-}
+// Re-export for backward compatibility
+export { isSystemMessage };
 
 /**
  * Calculate basic chat statistics

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { captureAndDownload } from '@/lib/utils/image-capture';
 
 interface DownloadButtonProps {
@@ -26,8 +26,16 @@ export function DownloadButton({
   const [status, setStatus] = useState<string>('');
 
   const handleDownload = async () => {
+    // Wait for ref to be available (in case slide just changed)
+    let attempts = 0;
+    while (!elementRef.current && attempts < 20) {
+      await new Promise(resolve => setTimeout(resolve, 50));
+      attempts++;
+    }
+    
     if (!elementRef.current) {
-      console.error('Element ref not available');
+      console.error('Element ref not available after waiting');
+      alert('Please wait for the slide to finish loading before downloading.');
       return;
     }
 
@@ -83,4 +91,3 @@ export function DownloadButton({
     </button>
   );
 }
-

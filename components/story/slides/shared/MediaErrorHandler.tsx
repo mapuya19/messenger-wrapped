@@ -2,11 +2,6 @@
 
 import React from 'react';
 
-interface MediaErrorHandlerProps {
-  type: 'photo' | 'video';
-  onError: (e: React.SyntheticEvent<HTMLImageElement | HTMLVideoElement, Event>) => void;
-}
-
 /**
  * Reusable error handler for media elements (images and videos)
  * Creates a fallback UI when media fails to load

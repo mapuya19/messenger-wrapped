@@ -72,13 +72,52 @@ function generateChatHistory(messages: ParsedMessage[]): ChatHistoryDataPoint[] 
  */
 export function analyzeChatData(
   messages: ParsedMessage[],
-  chatName: string
+  chatName: string,
+  allParticipants?: string[] // Optional list of all participants from the conversation
 ): WrappedData {
   // Calculate basic stats
   const stats = calculateChatStats(messages);
   
   // Calculate contributor stats
   const contributors = calculateContributorStats(messages);
+  
+  // If we have a list of all participants, ensure everyone is included (even with 0 messages)
+  if (allParticipants && allParticipants.length > 0) {
+    const contributorNames = new Set(contributors.map(c => c.name.toLowerCase().trim()));
+    const missingParticipants = allParticipants.filter(
+      participantName => {
+        const normalized = participantName.toLowerCase().trim();
+        // Check if this participant is already in contributors (with fuzzy matching)
+        return !Array.from(contributorNames).some(existingName => {
+          // Exact match
+          if (existingName === normalized) return true;
+          // Match without spaces
+          if (existingName.replace(/\s+/g, '') === normalized.replace(/\s+/g, '')) return true;
+          // Match if one contains the other
+          if (existingName.includes(normalized) || normalized.includes(existingName)) return true;
+          return false;
+        });
+      }
+    );
+    
+    // Add missing participants with 0 stats
+    missingParticipants.forEach(participantName => {
+      contributors.push({
+        name: participantName,
+        messageCount: 0,
+        photoCount: 0,
+        videoCount: 0,
+        audioMinutes: 0,
+        totalCharacters: 0,
+        uniqueWords: new Set<string>(),
+        emojiCount: 0,
+        emojis: new Map<string, number>(),
+      });
+    });
+    
+    // Re-sort by message count (0-message participants will be at the end)
+    contributors.sort((a, b) => b.messageCount - a.messageCount);
+  }
   
   // Calculate linguistic stats
   const linguisticStats = calculateAllLinguisticStats(contributors, messages);

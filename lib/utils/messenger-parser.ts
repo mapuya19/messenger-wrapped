@@ -84,8 +84,27 @@ export function parseHTMLFile(htmlContent: string): MessengerConversation {
   let groupPhotoUri: string | undefined;
   
   // Extract actual participants from HTML (from "Participants: ..." line)
+  // Try multiple patterns to handle different HTML formats
   const htmlText = htmlContent;
-  const participantsMatch = htmlText.match(/Participants:\s*([^<\n]+)/i);
+  
+  // Pattern 1: "Participants: name1, name2, name3"
+  let participantsMatch = htmlText.match(/Participants:\s*([^<\n]+)/i);
+  if (!participantsMatch) {
+    // Pattern 2: Look in header or title elements
+    const headerElement = doc.querySelector('header, h1, .thread-header, .chat-header');
+    if (headerElement) {
+      const headerText = headerElement.textContent || '';
+      participantsMatch = headerText.match(/Participants?:\s*([^<\n]+)/i);
+    }
+  }
+  if (!participantsMatch) {
+    // Pattern 3: Look for "Conversation with" or similar patterns
+    const conversationMatch = htmlText.match(/(?:Conversation with|Chat with|Messages with):\s*([^<\n]+)/i);
+    if (conversationMatch) {
+      participantsMatch = conversationMatch;
+    }
+  }
+  
   if (participantsMatch) {
     let participantsStr = participantsMatch[1].trim();
     // Handle "and" at the end (e.g., "name1, name2, name3 and name4")
@@ -94,7 +113,7 @@ export function parseHTMLFile(htmlContent: string): MessengerConversation {
     const participantsList = participantsStr
       .split(',')
       .map(name => name.trim())
-      .filter(name => name.length > 0 && !isSystemMessage(name));
+      .filter(name => name.length > 0 && name !== 'and' && !isSystemMessage(name));
     participantsList.forEach(name => participants.add(name));
   }
   
@@ -168,8 +187,19 @@ export function parseHTMLFile(htmlContent: string): MessengerConversation {
   // Parse each message section
   for (const section of Array.from(messageSections)) {
     try {
-      // Extract sender name from <h2> tag
-      const senderElement = section.querySelector('h2');
+      // Extract sender name - try multiple selectors for different HTML formats
+      let senderElement: Element | null = section.querySelector('h2');
+      if (!senderElement) {
+        senderElement = section.querySelector('h3, .sender, .author, [class*="sender"], [class*="author"]');
+      }
+      if (!senderElement) {
+        // Try to find the first text node or div that looks like a name
+        const firstChild = section.firstElementChild;
+        if (firstChild && firstChild.tagName.match(/^H[1-6]$/)) {
+          senderElement = firstChild;
+        }
+      }
+      
       const senderName = senderElement?.textContent?.trim() || 'Unknown';
       
       // Check if this is a system message
@@ -500,6 +530,16 @@ export function parseHTMLFile(htmlContent: string): MessengerConversation {
   
   // If we found messages, return them
   if (messages.length > 0) {
+    // Ensure we have participants - if none were extracted from header, collect from messages
+    if (participants.size === 0) {
+      // Collect unique sender names from messages (excluding system messages)
+      for (const msg of messages) {
+        if (msg.sender_name && !isSystemMessage(msg.sender_name)) {
+          participants.add(msg.sender_name);
+        }
+      }
+    }
+    
     // Convert participants Set to array format, ensuring all names are valid strings
     // and excluding system messages like "Meta AI" and "Group Invite Link: Off"
     const participantsArray = Array.from(participants)

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { formatDateRange } from '@/lib/utils/date-utils';
 import { slideAnimations, slideStyles } from './shared/slide-constants';
@@ -14,6 +14,7 @@ interface TotalMessagesSlideProps {
 
 export function TotalMessagesSlide({ count, chatName, totalParticipants, dateRange }: TotalMessagesSlideProps) {
   const [displayCount, setDisplayCount] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const duration = 2000;
@@ -27,6 +28,10 @@ export function TotalMessagesSlide({ count, chatName, totalParticipants, dateRan
       if (current >= count) {
         setDisplayCount(count);
         clearInterval(timer);
+        // Mark container as ready for capture
+        if (containerRef.current) {
+          containerRef.current.setAttribute('data-counter-ready', 'true');
+        }
       } else {
         setDisplayCount(Math.floor(current));
       }
@@ -38,7 +43,7 @@ export function TotalMessagesSlide({ count, chatName, totalParticipants, dateRan
   const formattedDateRange = formatDateRange(dateRange);
 
   return (
-    <div className={slideStyles.container}>
+    <div ref={containerRef} className={slideStyles.container}>
       <motion.div
         {...slideAnimations.scaleInSpring}
         className="space-y-6 w-full max-w-5xl text-center"

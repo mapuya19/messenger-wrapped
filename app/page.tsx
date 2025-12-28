@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useChatData } from '@/context/ChatDataContext';
+import { useChatData } from '@/contexts/ChatDataContext';
 import { UploadSelector } from '@/components/upload/UploadSelector';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';

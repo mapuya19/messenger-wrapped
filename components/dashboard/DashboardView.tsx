@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef } from 'react';
-import { useChatData } from '@/context/ChatDataContext';
+import { useChatData } from '@/contexts/ChatDataContext';
 import { StatCard } from './StatCard';
 import { ChatHistoryChart } from './ChatHistoryChart';
 import { MediaGallery } from './MediaGallery';
@@ -79,7 +79,7 @@ export function DashboardView() {
         <Card className="mb-6 sm:mb-8">
           <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">Top Contributors</h3>
           <div className="space-y-3 sm:space-y-4">
-            {wrappedData.contributors.slice(0, 10).map((contributor, index) => (
+            {wrappedData.contributors.map((contributor, index) => (
               <div
                 key={contributor.name}
                 className="flex items-center justify-between p-3 sm:p-4 bg-white/5 rounded-lg border border-white/10"

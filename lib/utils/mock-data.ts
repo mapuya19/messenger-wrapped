@@ -1,6 +1,6 @@
 import type { MessengerConversation, MessengerMessage } from '@/types';
 import { analyzeChatData } from '@/lib/analyzer';
-import { parseMessengerFile } from '@/lib/parser/messenger-parser';
+import { parseMessengerFile } from '@/lib/utils/messenger-parser';
 
 /**
  * Generate mock Messenger conversation data for testing

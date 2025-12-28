@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useReducer, ReactNode } from 'react';
-import type { WrappedData, ParsedMessage } from '@/types';
+import type { WrappedData } from '@/types';
 
 interface ChatDataState {
   wrappedData: WrappedData | null;

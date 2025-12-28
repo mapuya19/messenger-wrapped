@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useChatData } from '@/context/ChatDataContext';
+import { useChatData } from '@/contexts/ChatDataContext';
 import { StoryContainer } from '@/components/story/StoryContainer';
 import { DashboardView } from '@/components/dashboard/DashboardView';
 

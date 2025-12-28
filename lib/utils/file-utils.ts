@@ -56,27 +56,13 @@ export function getAvailableChats(files: Map<string, File>): string[] {
   const chatSet = new Set<string>();
   
   for (const path of files.keys()) {
-    // Match: messages/inbox/GroupName_abc123/...
-    let match = path.match(/messages\/inbox\/([^\/]+)/);
-    if (match) {
-      const chatName = match[1].split('_')[0].replace(/_/g, ' ');
+    const chatName = extractChatName(path);
+    if (chatName !== 'Unknown Chat') {
       chatSet.add(chatName);
-    } else {
-      // Match: GroupName_abc123/message_1.json or message_1.html (when user selects inbox folder)
-      match = path.match(/^([^\/]+)\/message_\d+\.(json|html)$/i);
-      if (match) {
-        const chatName = match[1].split('_')[0].replace(/_/g, ' ');
-        chatSet.add(chatName);
-      } else {
-        // Match: message_1.json or message_1.html (when user selects chat folder directly)
-        // In this case, we need to infer from the folder structure
-        // We'll check if there are message files at the root level
-        if (path.match(/^message_\d+\.(json|html)$/i)) {
-          // If we have message files at root, we can't determine chat name from path alone
-          // This will be handled by extracting from the file content
-          chatSet.add('Selected Chat');
-        }
-      }
+    } else if (path.match(/^message_\d+\.(json|html)$/i)) {
+      // If we have message files at root, we can't determine chat name from path alone
+      // This will be handled by extracting from the file content
+      chatSet.add('Selected Chat');
     }
   }
 
@@ -92,19 +78,13 @@ export function filterChatFiles(files: Map<string, File>, chatName: string): Map
   const normalizedChatName = chatName.replace(/\s+/g, '_').toLowerCase();
   
   for (const [path, file] of files.entries()) {
-    // Match paths like: messages/inbox/ChatName_hash123/...
-    const inboxMatch = path.match(/messages\/inbox\/([^\/]+)/i);
-    if (inboxMatch) {
-      const folderName = inboxMatch[1];
-      // Extract the base name (before underscore) and normalize
-      const folderBaseName = folderName.split('_')[0].toLowerCase();
-      
-      // Match if the folder base name matches the chat name
-      if (folderBaseName === normalizedChatName || 
-          folderName.toLowerCase().startsWith(normalizedChatName + '_') ||
-          folderName.toLowerCase() === normalizedChatName) {
-        filtered.set(path, file);
-      }
+    const extractedName = extractChatName(path);
+    const normalizedExtracted = extractedName.replace(/\s+/g, '_').toLowerCase();
+    
+    // Match if the extracted chat name matches the requested chat name
+    if (normalizedExtracted === normalizedChatName || 
+        path.toLowerCase().includes(normalizedChatName)) {
+      filtered.set(path, file);
     }
   }
 
@@ -136,5 +116,52 @@ export async function readDirectory(dirHandle: FileSystemDirectoryHandle): Promi
 
   await traverseDirectory(dirHandle);
   return files;
+}
+
+/**
+ * Read a file as text (UTF-8)
+ */
+export async function readFileAsText(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      if (typeof e.target?.result === 'string') {
+        resolve(e.target.result);
+      } else {
+        reject(new Error('Failed to read file as text'));
+      }
+    };
+    reader.onerror = () => reject(new Error('File reading error'));
+    reader.readAsText(file, 'UTF-8');
+  });
+}
+
+/**
+ * Extract chat name from folder path or conversation data
+ * Handles various path formats: messages/inbox/GroupName_abc123/, GroupName_abc123/, etc.
+ */
+export function extractChatName(
+  path: string,
+  conversationTitle?: string
+): string {
+  // Try to get title from conversation first
+  if (conversationTitle) {
+    return conversationTitle;
+  }
+
+  // Extract from path: messages/inbox/GroupName_abc123/
+  const match = path.match(/inbox[\/\\]([^\/\\]+)/);
+  if (match) {
+    // Remove any hash suffix
+    return match[1].split('_')[0].replace(/_/g, ' ');
+  }
+
+  // Try direct folder name match: GroupName_abc123/
+  const directMatch = path.match(/^([^\/\\]+)[\/\\]/);
+  if (directMatch) {
+    return directMatch[1].split('_')[0].replace(/_/g, ' ');
+  }
+
+  return 'Unknown Chat';
 }
 

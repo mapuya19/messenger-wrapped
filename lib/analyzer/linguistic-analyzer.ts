@@ -3,15 +3,10 @@ import type {
   LinguisticStats,
   ParsedMessage,
 } from '@/types';
+import { extractEmojis } from '@/lib/utils/message-utils';
 
-/**
- * Extract emojis from text using regex
- */
-const EMOJI_REGEX = /[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{27FF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]/gu;
-
-export function extractEmojis(text: string): string[] {
-  return text.match(EMOJI_REGEX) || [];
-}
+// Re-export for backward compatibility
+export { extractEmojis };
 
 /**
  * Calculate linguistic statistics for a contributor

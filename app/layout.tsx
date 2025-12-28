@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import { ChatDataProvider } from '@/context/ChatDataContext'
+import { ChatDataProvider } from '@/contexts/ChatDataContext'
 
 export const metadata: Metadata = {
   title: 'Messenger Wrapped',

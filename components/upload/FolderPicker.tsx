@@ -5,16 +5,20 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '../ui/Button';
 import { ProgressBar } from '../ui/ProgressBar';
 import { readDirectory } from '@/lib/utils/file-utils';
-import { parseMessengerFile, mergeMessages, parseJSONFile, parseHTMLFile, readFileAsText, extractChatName } from '@/lib/parser/messenger-parser';
-import type { ParsedMessage } from '@/types';
+import { parseMessengerFile, mergeMessages, parseJSONFile, parseHTMLFile, readFileAsText, extractChatName } from '@/lib/utils/messenger-parser';
+import type { ParsedMessage, MessengerConversation } from '@/types';
 import { findMessageFiles } from '@/lib/utils/file-utils';
 import { analyzeChatData } from '@/lib/analyzer';
-import { useChatData } from '@/context/ChatDataContext';
+import { useChatData } from '@/contexts/ChatDataContext';
 import { useRouter } from 'next/navigation';
+
+// Type for conversation that may include group photo URI (from HTML parsing)
+type ConversationWithGroupPhoto = MessengerConversation & { groupPhotoUri?: string };
 
 export function FolderPicker() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
   const { dispatch } = useChatData();
   const router = useRouter();
 
@@ -139,6 +143,7 @@ export function FolderPicker() {
       const parsedMessages: ParsedMessage[][] = [];
       let chatName = '';
       let groupPhotoUri: string | undefined;
+      const allParticipantsSet = new Set<string>(); // Collect all participants from all files
 
       for (let i = 0; i < messageFiles.length; i++) {
         const file = messageFiles[i];
@@ -146,11 +151,20 @@ export function FolderPicker() {
         
         // Detect file type and parse accordingly
         const isHTML = file.name.toLowerCase().endsWith('.html') || content.trim().startsWith('<!DOCTYPE') || content.trim().startsWith('<html');
-        const conversation = isHTML ? parseHTMLFile(content) : parseJSONFile(content);
+        const conversation: ConversationWithGroupPhoto = isHTML ? parseHTMLFile(content) as ConversationWithGroupPhoto : parseJSONFile(content);
+        
+        // Collect participants from this conversation
+        if (conversation.participants && conversation.participants.length > 0) {
+          conversation.participants.forEach(p => {
+            if (p.name && p.name.trim()) {
+              allParticipantsSet.add(p.name.trim());
+            }
+          });
+        }
         
         // Extract group photo from first HTML file if available
-        if (isHTML && !groupPhotoUri && (conversation as any).groupPhotoUri) {
-          groupPhotoUri = (conversation as any).groupPhotoUri;
+        if (isHTML && !groupPhotoUri && conversation.groupPhotoUri) {
+          groupPhotoUri = conversation.groupPhotoUri;
           // Convert group photo URI to blob URL if it's a local file
           if (groupPhotoUri && !groupPhotoUri.startsWith('blob:') && !groupPhotoUri.startsWith('http')) {
             const filename = groupPhotoUri.split('/').pop() || '';
@@ -189,7 +203,8 @@ export function FolderPicker() {
 
       // Merge and analyze
       const allMessages = mergeMessages(parsedMessages);
-      const wrappedData = analyzeChatData(allMessages, chatName);
+      const allParticipants = Array.from(allParticipantsSet);
+      const wrappedData = analyzeChatData(allMessages, chatName, allParticipants);
       
       // Add group photo if found
       if (groupPhotoUri) {
@@ -200,8 +215,13 @@ export function FolderPicker() {
 
       dispatch({ type: 'SET_DATA', payload: { data: wrappedData, chatName } });
       
-      // Navigate to wrapped view
-      router.push('/wrapped');
+      // Show success animation before navigating
+      setShowSuccessAnimation(true);
+      
+      // Wait for animation to play, then navigate
+      setTimeout(() => {
+        router.push('/wrapped');
+      }, 1500);
     } catch (error) {
       // Check if user cancelled the dialog (AbortError)
       if (error instanceof DOMException && error.name === 'AbortError') {
@@ -240,7 +260,7 @@ export function FolderPicker() {
         {isProcessing ? 'Processing...' : 'Select Folder (Recommended)'}
       </Button>
       <AnimatePresence>
-        {isProcessing && (
+        {isProcessing && !showSuccessAnimation && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
@@ -256,6 +276,111 @@ export function FolderPicker() {
             >
               Reading and analyzing messages...
             </motion.p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Success Animation */}
+      <AnimatePresence>
+        {showSuccessAnimation && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-messenger-dark/95 backdrop-blur-sm"
+          >
+            <motion.div
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{
+                type: 'spring',
+                stiffness: 200,
+                damping: 15,
+                duration: 0.6
+              }}
+              className="relative"
+            >
+              {/* Checkmark circle background */}
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{
+                  type: 'spring',
+                  stiffness: 200,
+                  damping: 15,
+                  delay: 0.1
+                }}
+                className="w-24 h-24 lg:w-32 lg:h-32 rounded-full bg-gradient-to-br from-messenger-blue to-blue-600 flex items-center justify-center shadow-2xl"
+              >
+                {/* Checkmark */}
+                <motion.svg
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: 1, opacity: 1 }}
+                  transition={{
+                    pathLength: { duration: 0.5, delay: 0.3, ease: 'easeOut' },
+                    opacity: { delay: 0.3 }
+                  }}
+                  className="w-12 h-12 lg:w-16 lg:h-16 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={3}
+                >
+                  <motion.path
+                    strokeLinecap="butt"
+                    strokeLinejoin="round"
+                    d="M6 12l4 4l7-7"
+                  />
+                </motion.svg>
+              </motion.div>
+
+              {/* Sparkle particles */}
+              <AnimatePresence>
+                {[...Array(12)].map((_, i) => {
+                  const angle = (i * Math.PI * 2) / 12;
+                  const radius = 80;
+                  return (
+                    <motion.div
+                      key={i}
+                      initial={{ 
+                        scale: 0,
+                        opacity: 0
+                      }}
+                      animate={{
+                        scale: [0, 1, 0],
+                        opacity: [0, 1, 0]
+                      }}
+                      exit={{
+                        scale: 0,
+                        opacity: 0
+                      }}
+                      transition={{
+                        duration: 1,
+                        delay: 0.4 + i * 0.05,
+                        ease: 'easeOut',
+                        times: [0, 0.5, 1]
+                      }}
+                      className="absolute w-2 h-2 bg-white rounded-full pointer-events-none"
+                      style={{
+                        left: '50%',
+                        top: '50%',
+                        transform: `translate(-50%, -50%) translate(${Math.cos(angle) * radius}px, ${Math.sin(angle) * radius}px)`,
+                      }}
+                    />
+                  );
+                })}
+              </AnimatePresence>
+
+              {/* Success text */}
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6, duration: 0.4 }}
+                className="text-white text-xl lg:text-2xl font-bold mt-8 text-center"
+              >
+                Ready to view your Wrapped!
+              </motion.p>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

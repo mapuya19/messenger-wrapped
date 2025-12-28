@@ -25,6 +25,7 @@ export function IntroSlide({ chatName, groupPhotoUri }: IntroSlideProps) {
             transition={{ delay: 0.1, type: 'spring' }}
             className="mb-4"
           >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={groupPhotoUri}
               alt="Group photo"

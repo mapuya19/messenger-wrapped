@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useDeviceDetection } from '../hooks/useDeviceDetection';
+import { useDeviceDetection } from '@/hooks/useDeviceDetection';
 import { FileUploader } from './FileUploader';
 
 export function UploadSelector() {
