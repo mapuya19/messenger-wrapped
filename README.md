@@ -5,34 +5,14 @@
 [![Next.js](https://img.shields.io/badge/Next.js-16.1-black?logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-18.2-blue?logo=react)](https://reactjs.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## ✨ Features
 
-- 📊 **Comprehensive Statistics**
-  - Total message count, photos, videos, and audio minutes
-  - Chat history timeline visualization
-  - Top contributing members analysis
-
-- 🎨 **Beautiful Visualizations**
-  - Interactive charts and graphs
-  - Story-style slideshow presentation
-  - Downloadable wrapped images
-
-- 🧠 **Linguistic Analysis**
-  - Reading level analysis for chat members
-  - Most used words and phrases
-  - Language patterns and insights
-
-- 🎭 **Reaction Analytics**
-  - Most reacted images
-  - Most reacted videos
-  - Most reacted text messages
-
-- 🔒 **Privacy First**
-  - 100% local processing—no data leaves your device
-  - No server uploads or data collection
-  - Works entirely in your browser
+- 📊 **Comprehensive Statistics** — Message counts, media stats, timeline visualization, and top contributors
+- 🎨 **Beautiful Visualizations** — Story-style slideshow with downloadable wrapped images
+- 🧠 **Linguistic Analysis** — Reading levels, most used words, and language patterns
+- 🎭 **Reaction Analytics** — Most reacted images, videos, and messages
+- 🔒 **Privacy First** — 100% local processing, no data leaves your device
 
 ## 🚀 Getting Started
 
@@ -124,16 +104,6 @@ messenger-wrapped/
 └── public/                # Static assets
 ```
 
-## 🛠️ Technologies
-
-- **[Next.js 16](https://nextjs.org/)** - React framework with App Router
-- **[TypeScript](https://www.typescriptlang.org/)** - Type-safe JavaScript
-- **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS framework
-- **[Framer Motion](https://www.framer.com/motion/)** - Animation library
-- **[Recharts](https://recharts.org/)** - Charting library
-- **[JSZip](https://stuk.github.io/jszip/)** - Zip file handling
-- **[html2canvas](https://html2canvas.hertzen.com/)** - Screenshot generation
-
 ## 🔒 Privacy & Security
 
 Messenger Wrapped is designed with privacy as a core principle:
@@ -144,43 +114,12 @@ Messenger Wrapped is designed with privacy as a core principle:
 - ✅ **No Tracking**: No analytics, tracking, or third-party services
 - ✅ **Open Source**: You can review the code to verify our privacy claims
 
-For more details, see our [Privacy Policy](/privacy) and [Terms of Use](/terms).
-
-## 🌐 Browser Support
-
-- **Desktop**: Chrome, Edge, Opera (File System Access API support)
-- **Mobile**: All modern browsers (zip upload)
-- **Fallback**: Zip upload works on all platforms
-
 ## 📝 Available Scripts
 
 - `npm run dev` - Start development server
 - `npm run build` - Build for production
 - `npm start` - Start production server
 - `npm run lint` - Run ESLint
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- Inspired by Spotify Wrapped
-- Built with love for the open-source community
-
-## 📧 Contact
-
-For questions, issues, or contributions, please visit our [GitHub repository](https://github.com/matthewapuya/messenger-wrapped).
 
 ---
 
