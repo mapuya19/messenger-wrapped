@@ -10,7 +10,7 @@ import type { ParsedMessage, MessengerConversation } from '@/types';
 import { findMessageFiles } from '@/lib/utils/file-utils';
 import { analyzeChatData } from '@/lib/analyzer';
 import { useChatData } from '@/contexts/ChatDataContext';
-import { useRouter } from 'next/navigation';
+import { useNavigate } from '@tanstack/react-router';
 
 // Type for conversation that may include group photo URI (from HTML parsing)
 type ConversationWithGroupPhoto = MessengerConversation & { groupPhotoUri?: string };
@@ -20,7 +20,7 @@ export function FolderPicker() {
   const [progress, setProgress] = useState(0);
   const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
   const { dispatch } = useChatData();
-  const router = useRouter();
+  const navigate = useNavigate();
 
   const handleSelectFolder = async () => {
     // Check if API is available
@@ -220,7 +220,7 @@ export function FolderPicker() {
       
       // Wait for animation to play, then navigate
       setTimeout(() => {
-        router.push('/wrapped');
+        navigate({ to: '/wrapped' });
       }, 1500);
     } catch (error) {
       // Check if user cancelled the dialog (AbortError)

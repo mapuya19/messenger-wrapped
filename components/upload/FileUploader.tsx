@@ -12,7 +12,7 @@ import type { ParsedMessage, MessengerConversation } from '@/types';
 type ConversationWithGroupPhoto = MessengerConversation & { groupPhotoUri?: string };
 import { analyzeChatData } from '@/lib/analyzer';
 import { useChatData } from '@/contexts/ChatDataContext';
-import { useRouter } from 'next/navigation';
+import { useNavigate } from '@tanstack/react-router';
 
 export function FileUploader() {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -25,7 +25,7 @@ export function FileUploader() {
   const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { dispatch } = useChatData();
-  const router = useRouter();
+  const navigate = useNavigate();
 
   const processZipFile = useCallback(async (file: File) => {
     try {
@@ -351,7 +351,7 @@ export function FileUploader() {
       
       // Wait for animation to play, then navigate
       setTimeout(() => {
-        router.push('/wrapped');
+        navigate({ to: '/wrapped' });
       }, 1500);
     } catch (error) {
       console.error('Error processing chat:', error);

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
+import { Link } from '@tanstack/react-router';
 import { motion } from 'framer-motion';
 
 interface FooterProps {
@@ -36,13 +36,13 @@ export function Footer({ githubUrl = 'https://github.com/mapuya19/messenger-wrap
             aria-label="Footer navigation"
           >
             <Link
-              href="/privacy"
+              to="/privacy"
               className="text-sm text-white/70 hover:text-white transition-colors duration-200 underline-offset-4 hover:underline focus:outline-none focus:ring-2 focus:ring-messenger-blue focus:ring-offset-2 focus:ring-offset-messenger-dark rounded"
             >
               Privacy Policy
             </Link>
             <Link
-              href="/terms"
+              to="/terms"
               className="text-sm text-white/70 hover:text-white transition-colors duration-200 underline-offset-4 hover:underline focus:outline-none focus:ring-2 focus:ring-messenger-blue focus:ring-offset-2 focus:ring-offset-messenger-dark rounded"
             >
               Terms of Use

@@ -1,21 +1,23 @@
-'use client';
-
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { useState, useEffect } from 'react';
 import { useChatData } from '@/contexts/ChatDataContext';
 import { StoryContainer } from '@/components/story/StoryContainer';
 import { DashboardView } from '@/components/dashboard/DashboardView';
 
-export default function WrappedPage() {
+export const Route = createFileRoute('/wrapped')({
+  component: WrappedPage,
+});
+
+function WrappedPage() {
   const { state } = useChatData();
-  const router = useRouter();
+  const navigate = useNavigate();
   const [showDashboard, setShowDashboard] = useState(false);
 
   useEffect(() => {
     if (!state.wrappedData) {
-      router.push('/');
+      navigate({ to: '/' });
     }
-  }, [state.wrappedData, router]);
+  }, [state.wrappedData, navigate]);
 
   if (!state.wrappedData) {
     return (
@@ -32,7 +34,7 @@ export default function WrappedPage() {
   return (
     <StoryContainer
       onComplete={() => setShowDashboard(true)}
-      onExit={() => router.push('/')}
+      onExit={() => navigate({ to: '/' })}
     />
   );
 }

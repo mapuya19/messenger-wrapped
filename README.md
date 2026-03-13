@@ -2,7 +2,7 @@
 
 > Explore your Facebook Messenger chat history in a beautiful, Spotify Wrapped-inspired experience. All processing happens locally in your browser—your data never leaves your device.
 
-[![Next.js](https://img.shields.io/badge/Next.js-16.1-black?logo=next.js)](https://nextjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-8.0-646CFF?logo=vite)](https://vitejs.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-18.2-blue?logo=react)](https://reactjs.org/)
 
@@ -81,13 +81,13 @@ Once your data is processed, you can:
 
 ```
 messenger-wrapped/
-├── app/                    # Next.js app directory
-│   ├── api/               # API routes
-│   ├── privacy/           # Privacy policy page
-│   ├── terms/             # Terms of use page
-│   ├── wrapped/           # Wrapped story view
-│   ├── layout.tsx         # Root layout
-│   └── page.tsx           # Home page
+├── src/                    # Source code
+│   ├── main.tsx           # Application entry point
+│   ├── index.css          # Global styles & Tailwind
+│   ├── routes/            # TanStack Router routes
+│   │   ├── index.tsx      # Home page
+│   │   └── __root.tsx     # Root layout
+│   └── routeTree.gen.ts   # Auto-generated routes
 ├── components/            # React components
 │   ├── dashboard/         # Dashboard components
 │   ├── story/             # Story slideshow components
@@ -101,7 +101,10 @@ messenger-wrapped/
 │   ├── parser/            # Messenger data parser
 │   └── utils/             # Helper utilities
 ├── types/                 # TypeScript type definitions
-└── public/                # Static assets
+├── index.html             # HTML entry point
+├── vite.config.ts         # Vite configuration
+├── tailwind.config.js     # Tailwind CSS configuration
+└── tsr.config.json        # TanStack Router configuration
 ```
 
 ## 🔒 Privacy & Security
@@ -118,8 +121,9 @@ Messenger Wrapped is designed with privacy as a core principle:
 
 - `npm run dev` - Start development server
 - `npm run build` - Build for production
-- `npm start` - Start production server
+- `npm start` - Start production preview server
 - `npm run lint` - Run ESLint
+- `npm run gen` - Generate TanStack Router routes
 
 ---
 
