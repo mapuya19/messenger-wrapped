@@ -32,10 +32,9 @@ lib/
 
 ### Key Configuration Files
 
-- **`vite.config.ts`** - Vite build config
-- **`tailwind.config.js`** - Tailwind content paths must include all JSX/TSX files
+- **`vite.config.ts`** - Vite build config (includes `@tailwindcss/vite` plugin)
+- **`src/index.css`** - Tailwind entry point; custom theme defined here via `@theme {}`
 - **`tsr.config.json`** - TanStack Router config (file-based routing)
-- **`postcss.config.cjs`** - PostCSS + Tailwind + Autoprefixer
 
 ## Common Tasks
 
@@ -72,14 +71,14 @@ npm start        # Preview production build
 
 1. **Never remove the CSS import** in `src/main.tsx` - Tailwind won't work without it
 2. **Always run `npm run gen`** after adding/modifying route files
-3. **Content paths** in `tailwind.config.js` must include all directories with JSX/TSX files
+3. **Custom theme tokens** live in `@theme {}` in `src/index.css` (not `tailwind.config.js` — that file no longer exists)
 4. **No server-side code** - this is a static SPA, all data processing is client-side
 5. **Privacy is critical** - never add analytics, tracking, or data transmission
 
 ## Dependencies to Know
 
 - `@tanstack/react-router` - File-based routing
-- `framer-motion` - Animations for story slides
+- `motion` - Animations for story slides (`import { motion } from 'motion/react'`)
 - `html-to-image` - Download wrapped as images
 - `recharts` - Charts for dashboard
 - `jszip` - Unzip Messenger exports

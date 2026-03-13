@@ -1,7 +1,6 @@
-'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'motion/react';
 import { SlideTransition } from './SlideTransition';
 import { IntroSlide } from './slides/IntroSlide';
 import { TotalMessagesSlide } from './slides/TotalMessagesSlide';

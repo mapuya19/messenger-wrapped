@@ -1,7 +1,6 @@
-'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { slideStyles } from './shared/slide-constants';
 
 interface IntroSlideProps {
@@ -25,7 +24,6 @@ export function IntroSlide({ chatName, groupPhotoUri }: IntroSlideProps) {
             transition={{ delay: 0.1, type: 'spring' }}
             className="mb-2 sm:mb-4"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={groupPhotoUri}
               alt="Group photo"

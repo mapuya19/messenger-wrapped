@@ -1,7 +1,6 @@
-'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { slideAnimations, slideStyles } from './shared/slide-constants';
 
 interface TopContributorsSlideProps {
@@ -25,7 +24,7 @@ export function TopContributorsSlide({ contributors }: TopContributorsSlideProps
       {/* Desktop: Horizontal layout (bars left, rankings right) | Mobile: Vertical layout */}
       <div className="flex flex-col lg:flex-row items-start justify-center gap-4 sm:gap-6 lg:gap-8 xl:gap-12 w-full max-w-7xl px-2 sm:px-4 lg:px-8">
         {/* Top 3 Visual Chart - Left side on desktop, horizontal bars on mobile */}
-        <div className="flex flex-col sm:flex-row lg:flex-row items-end justify-center gap-3 sm:gap-4 lg:gap-6 w-full lg:w-auto lg:flex-shrink-0">
+        <div className="flex flex-col sm:flex-row lg:flex-row items-end justify-center gap-3 sm:gap-4 lg:gap-6 w-full lg:w-auto lg:shrink-0">
           {top3.map((contributor, index) => {
             const heightPercent = (contributor.messageCount / maxCount) * 100;
             const widthPercent = (contributor.messageCount / maxCount) * 100;
@@ -90,7 +89,7 @@ export function TopContributorsSlide({ contributors }: TopContributorsSlideProps
                   
                   {/* Fixed height container for name and percentage to prevent layout shift */}
                   <div className="h-[50px] lg:h-[60px] xl:h-[65px] flex flex-col justify-start items-center text-center w-full">
-                    <div className="text-sm lg:text-base xl:text-lg font-semibold text-white break-words px-1">
+                    <div className="text-sm lg:text-base xl:text-lg font-semibold text-white wrap-break-word px-1">
                       {contributor.name}
                     </div>
                     <div className="text-xs lg:text-sm text-white/60 mt-1">
@@ -117,14 +116,14 @@ export function TopContributorsSlide({ contributors }: TopContributorsSlideProps
               className="flex items-center justify-between gap-2 sm:gap-2 lg:gap-2 px-2 sm:px-2 lg:px-2 py-1 sm:py-1 lg:py-1.5 bg-white/5 rounded-md lg:rounded-lg border border-white/10 min-w-0"
             >
               <div className="flex items-center gap-1.5 sm:gap-2 lg:gap-2 min-w-0 flex-1">
-                <div className="text-xs sm:text-sm lg:text-sm xl:text-base font-bold text-white/60 w-4 sm:w-5 lg:w-5 xl:w-6 flex-shrink-0">
+                <div className="text-xs sm:text-sm lg:text-sm xl:text-base font-bold text-white/60 w-4 sm:w-5 lg:w-5 xl:w-6 shrink-0">
                   #{index + 1}
                 </div>
                 <div className="text-xs sm:text-sm lg:text-sm xl:text-base font-semibold text-white truncate min-w-0">
                   {contributor.name}
                 </div>
               </div>
-              <div className="text-xs sm:text-sm lg:text-sm xl:text-base font-semibold text-white flex-shrink-0 whitespace-nowrap">
+              <div className="text-xs sm:text-sm lg:text-sm xl:text-base font-semibold text-white shrink-0 whitespace-nowrap">
                 {contributor.messageCount.toLocaleString()}
               </div>
             </div>

@@ -1,7 +1,6 @@
-'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 interface CardProps {
   children: React.ReactNode;
@@ -38,7 +37,7 @@ export function Card({
         y: -4,
         transition: { duration: 0.2 }
       } : undefined}
-      className={`bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 ${paddings[padding]} ${className}`}
+      className={`bg-white/5 backdrop-blur-xs rounded-xl border border-white/10 ${paddings[padding]} ${className}`}
     >
       {children}
     </motion.div>

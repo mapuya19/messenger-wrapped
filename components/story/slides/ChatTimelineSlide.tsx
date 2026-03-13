@@ -1,8 +1,7 @@
-'use client';
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, DotProps } from 'recharts';
+import { motion } from 'motion/react';
+import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, DotItemDotProps } from 'recharts';
 import { parseMonthDate, formatMonthDate } from '@/lib/utils/date-utils';
 import { slideAnimations, slideStyles } from './shared/slide-constants';
 
@@ -11,9 +10,7 @@ interface ChatTimelineSlideProps {
 }
 
 // Custom animated dot component with smooth animation
-const AnimatedDot = (props: DotProps & { index: number }) => {
-  const { cx, cy, index } = props;
-  
+const AnimatedDot = ({ cx, cy, index }: { cx?: number; cy?: number; index: number }) => {
   if (cx === undefined || cy === undefined) return null;
 
   return (
@@ -27,7 +24,7 @@ const AnimatedDot = (props: DotProps & { index: number }) => {
       transition={{ 
         delay: 0.3 + (index * 0.03),
         duration: 0.4,
-        ease: [0.16, 1, 0.3, 1] // Custom cubic bezier for smooth easing
+        ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
       }}
     />
   );
@@ -113,16 +110,14 @@ export function ChatTimelineSlide({ chatHistory }: ChatTimelineSlideProps) {
               dataKey="messages"
               stroke="#0084FF"
               strokeWidth={3}
-              dot={(props) => {
-                const { key, index, ...restProps } = props;
-                return (
-                  <AnimatedDot 
-                    key={key}
-                    {...restProps}
-                    index={index || 0}
-                  />
-                );
-              }}
+              dot={(props: DotItemDotProps) => (
+                <AnimatedDot 
+                  key={`dot-${props.index}`}
+                  cx={props.cx}
+                  cy={props.cy}
+                  index={props.index}
+                />
+              )}
               activeDot={{ r: 6, fill: '#0084FF' }}
               isAnimationActive={isMounted}
               animationDuration={2000}

@@ -1,7 +1,6 @@
-'use client';
 
 import React, { useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { Button } from './Button';
 
 interface ModalProps {
@@ -49,7 +48,7 @@ export function Modal({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
+            className="fixed inset-0 bg-black/60 backdrop-blur-xs z-50"
             onClick={onClose}
           />
 

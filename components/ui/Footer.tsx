@@ -1,8 +1,7 @@
-'use client';
 
 import React from 'react';
 import { Link } from '@tanstack/react-router';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 interface FooterProps {
   githubUrl?: string;
@@ -12,7 +11,7 @@ export function Footer({ githubUrl = 'https://github.com/mapuya19/messenger-wrap
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full border-t border-white/10 bg-messenger-dark/50 backdrop-blur-sm">
+    <footer className="w-full border-t border-white/10 bg-messenger-dark/50 backdrop-blur-xs">
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-6">
           {/* Copyright */}
@@ -37,13 +36,13 @@ export function Footer({ githubUrl = 'https://github.com/mapuya19/messenger-wrap
           >
             <Link
               to="/privacy"
-              className="text-sm text-white/70 hover:text-white transition-colors duration-200 underline-offset-4 hover:underline focus:outline-none focus:ring-2 focus:ring-messenger-blue focus:ring-offset-2 focus:ring-offset-messenger-dark rounded"
+              className="text-sm text-white/70 hover:text-white transition-colors duration-200 underline-offset-4 hover:underline focus:outline-hidden focus:ring-2 focus:ring-messenger-blue focus:ring-offset-2 focus:ring-offset-messenger-dark rounded-sm"
             >
               Privacy Policy
             </Link>
             <Link
               to="/terms"
-              className="text-sm text-white/70 hover:text-white transition-colors duration-200 underline-offset-4 hover:underline focus:outline-none focus:ring-2 focus:ring-messenger-blue focus:ring-offset-2 focus:ring-offset-messenger-dark rounded"
+              className="text-sm text-white/70 hover:text-white transition-colors duration-200 underline-offset-4 hover:underline focus:outline-hidden focus:ring-2 focus:ring-messenger-blue focus:ring-offset-2 focus:ring-offset-messenger-dark rounded-sm"
             >
               Terms of Use
             </Link>
@@ -61,7 +60,7 @@ export function Footer({ githubUrl = 'https://github.com/mapuya19/messenger-wrap
               href={githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-2 text-white/70 hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-messenger-blue focus:ring-offset-2 focus:ring-offset-messenger-dark rounded p-1"
+              className="group flex items-center gap-2 text-white/70 hover:text-white transition-colors duration-200 focus:outline-hidden focus:ring-2 focus:ring-messenger-blue focus:ring-offset-2 focus:ring-offset-messenger-dark rounded-sm p-1"
               aria-label="View source code on GitHub"
             >
               <svg

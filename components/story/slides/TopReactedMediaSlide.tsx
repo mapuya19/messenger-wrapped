@@ -1,7 +1,6 @@
-'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { handleMediaError } from './shared/MediaErrorHandler';
 import { slideAnimations, slideStyles } from './shared/slide-constants';
 import { normalizeReactionEmoji } from '@/lib/utils/message-utils';
@@ -44,7 +43,6 @@ export function TopReactedMediaSlide({ title, item, type }: TopReactedMediaSlide
         {type === 'photo' && item.message.photos?.[0] && (
           <div className="mb-4">
             <div className="aspect-video bg-white/10 rounded-lg overflow-hidden flex items-center justify-center relative">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={item.message.photos[0].uri}
                 alt="Photo"
@@ -71,7 +69,7 @@ export function TopReactedMediaSlide({ title, item, type }: TopReactedMediaSlide
 
         {type === 'text' && (
           <div className="mb-3 sm:mb-4">
-            <div className="bg-white/10 rounded-lg p-4 sm:p-6 lg:p-8 text-white/90 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl break-words min-h-[100px] sm:min-h-[120px] lg:min-h-[160px] xl:min-h-[180px] flex flex-col items-center justify-center">
+            <div className="bg-white/10 rounded-lg p-4 sm:p-6 lg:p-8 text-white/90 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl wrap-break-word min-h-[100px] sm:min-h-[120px] lg:min-h-[160px] xl:min-h-[180px] flex flex-col items-center justify-center">
               {(() => {
                 const content = item.message.content;
                 const hasContent = content && typeof content === 'string' && content.trim().length > 0;

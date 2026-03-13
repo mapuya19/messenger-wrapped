@@ -1,4 +1,3 @@
-'use client';
 
 import React from 'react';
 import { Card } from '../ui/Card';
@@ -49,7 +48,6 @@ export function MediaGallery({ title, items, type }: MediaGalleryProps) {
           >
             {type === 'photo' && item.message.photos?.[0] && (
               <div className="aspect-video bg-white/10 rounded-lg overflow-hidden flex items-center justify-center mb-3 relative">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={item.message.photos[0].uri}
                   alt="Photo"
@@ -100,7 +98,7 @@ export function MediaGallery({ title, items, type }: MediaGalleryProps) {
               </div>
             )}
             {type === 'text' && item.message.content && (
-              <div className="bg-white/10 rounded-lg p-3 mb-3 text-white/90 text-sm line-clamp-3 min-h-[4rem]">
+              <div className="bg-white/10 rounded-lg p-3 mb-3 text-white/90 text-sm line-clamp-3 min-h-16">
                 &quot;{item.message.content}&quot;
               </div>
             )}

@@ -2,9 +2,9 @@
 
 > Explore your Facebook Messenger chat history in a beautiful, Spotify Wrapped-inspired experience. All processing happens locally in your browser—your data never leaves your device.
 
-[![Vite](https://img.shields.io/badge/Vite-8.0-646CFF?logo=vite)](https://vitejs.dev/)
+[![Vite](https://img.shields.io/badge/Vite-7.3-646CFF?logo=vite)](https://vitejs.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?logo=typescript)](https://www.typescriptlang.org/)
-[![React](https://img.shields.io/badge/React-18.2-blue?logo=react)](https://reactjs.org/)
+[![React](https://img.shields.io/badge/React-19.2-blue?logo=react)](https://reactjs.org/)
 
 ## ✨ Features
 
@@ -103,7 +103,6 @@ messenger-wrapped/
 ├── types/                 # TypeScript type definitions
 ├── index.html             # HTML entry point
 ├── vite.config.ts         # Vite configuration
-├── tailwind.config.js     # Tailwind CSS configuration
 └── tsr.config.json        # TanStack Router configuration
 ```
 

@@ -1,17 +1,45 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+  --color-messenger-blue: #0084ff;
+  --color-messenger-purple: #9b59b6;
+  --color-messenger-dark: #0a1628;
+
+  --background-image-gradient-messenger: linear-gradient(
+    135deg,
+    #0084ff 0%,
+    #9b59b6 100%
+  );
+}
+
+/*
+  v4 compatibility: restore v3 default border color
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+
+  /* v4 changed buttons to cursor:default — restore v3 cursor:pointer */
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  /* v4 removed dialog centering — not used here but safe to include */
+  dialog {
+    margin: auto;
+  }
+}
 
 :root {
   --messenger-blue: #0084FF;
   --messenger-purple: #9B59B6;
   --messenger-dark: #0A1628;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
 }
 
 html,
@@ -90,7 +118,4 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-
-
-
 

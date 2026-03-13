@@ -1,4 +1,3 @@
-'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
 
@@ -134,7 +133,7 @@ export function Carousel({
           {children.map((child, index) => (
             <div
               key={index}
-              className="flex-shrink-0 snap-start"
+              className="shrink-0 snap-start"
               style={{
                 width: `calc((100% - ${(itemsPerSlide - 1) * 1}rem) / ${itemsPerSlide})`,
                 minWidth: `calc((100% - ${(itemsPerSlide - 1) * 1}rem) / ${itemsPerSlide})`,
@@ -156,7 +155,7 @@ export function Carousel({
               absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 sm:-translate-x-8 md:-translate-x-12 lg:-translate-x-16
               bg-white/10 hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed
               rounded-full p-2 md:p-3 transition-all z-10
-              backdrop-blur-sm border border-white/20
+              backdrop-blur-xs border border-white/20
               shadow-lg
             `}
             aria-label="Previous slide"
@@ -182,7 +181,7 @@ export function Carousel({
               absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 sm:translate-x-8 md:translate-x-12 lg:translate-x-16
               bg-white/10 hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed
               rounded-full p-2 md:p-3 transition-all z-10
-              backdrop-blur-sm border border-white/20
+              backdrop-blur-xs border border-white/20
               shadow-lg
             `}
             aria-label="Next slide"

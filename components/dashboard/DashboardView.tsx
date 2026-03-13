@@ -1,4 +1,3 @@
-'use client';
 
 import React from 'react';
 import { useChatData } from '@/contexts/ChatDataContext';
@@ -53,7 +52,7 @@ export function DashboardView({ onBack }: DashboardViewProps) {
 
           {/* Desktop: Two column layout */}
           <div className="hidden sm:flex justify-between items-start mb-4 gap-4">
-            <div className="flex-shrink-0">
+            <div className="shrink-0">
               {onBack && (
                 <button
                   onClick={onBack}
@@ -81,7 +80,7 @@ export function DashboardView({ onBack }: DashboardViewProps) {
               </h1>
               <p className="text-base text-white/60">Complete statistics and insights</p>
             </div>
-            <div className="flex-shrink-0 w-[140px]">
+            <div className="shrink-0 w-[140px]">
               {/* Empty spacer for centering */}
             </div>
           </div>
@@ -129,7 +128,7 @@ export function DashboardView({ onBack }: DashboardViewProps) {
                 className="bg-white/5 rounded-lg p-3 sm:p-4 border border-white/10"
               >
                 <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
-                  <div className="text-base sm:text-lg font-bold text-white/60 flex-shrink-0">
+                  <div className="text-base sm:text-lg font-bold text-white/60 shrink-0">
                     #{index + 1}
                   </div>
                   <div className="font-semibold text-white text-sm sm:text-base break-words min-w-0 flex-1">

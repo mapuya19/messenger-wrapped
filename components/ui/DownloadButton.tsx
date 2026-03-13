@@ -1,11 +1,10 @@
-'use client';
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { captureAndDownload } from '@/lib/utils/image-capture';
 
 interface DownloadButtonProps {
-  elementRef: React.RefObject<HTMLElement>;
+  elementRef: React.RefObject<HTMLElement | null>;
   filename: string;
   className?: string;
   variant?: 'icon' | 'text';
@@ -118,7 +117,7 @@ export function DownloadButton({
       <button
         onClick={handleDownload}
         disabled={isCapturing}
-        className={`p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed backdrop-blur-sm ${className}`}
+        className={`p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed backdrop-blur-xs ${className}`}
         aria-label="Download image"
         title={isCapturing ? (status || 'Preparing image...') : 'Save as image'}
       >
@@ -139,11 +138,11 @@ export function DownloadButton({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[100]"
+              className="fixed inset-0 bg-black/70 backdrop-blur-xs z-100"
             />
 
             {/* Modal */}
-            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 pointer-events-none">
+            <div className="fixed inset-0 z-100 flex items-center justify-center p-4 pointer-events-none">
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}

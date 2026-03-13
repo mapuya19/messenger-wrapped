@@ -10,10 +10,12 @@ export const Route = createRootRouteWithContext()({
 function RootComponent() {
   return (
     <ChatDataProvider>
-      <div className="flex-1">
-        <Outlet />
+      <div className="flex flex-col min-h-screen">
+        <div className="flex-1">
+          <Outlet />
+        </div>
+        <Footer />
       </div>
-      <Footer />
     </ChatDataProvider>
   );
 }

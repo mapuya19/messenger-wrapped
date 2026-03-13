@@ -1,7 +1,6 @@
-'use client';
 
 import React, { useState, useRef, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { Button } from '../ui/Button';
 import { ProgressBar } from '../ui/ProgressBar';
 import { extractZipFile, findMessageFiles, getAvailableChats } from '@/lib/utils/file-utils';
@@ -433,7 +432,7 @@ export function FileUploader() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search chats..."
-                className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-hidden focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
               {searchQuery && (
                 <button
@@ -579,7 +578,7 @@ export function FileUploader() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-messenger-dark/95 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-messenger-dark/95 backdrop-blur-xs"
           >
             <motion.div
               initial={{ scale: 0, rotate: -180 }}

@@ -1,7 +1,6 @@
-'use client';
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { Button } from '../ui/Button';
 import { ProgressBar } from '../ui/ProgressBar';
 import { readDirectory } from '@/lib/utils/file-utils';
@@ -287,7 +286,7 @@ export function FolderPicker() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-messenger-dark/95 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-messenger-dark/95 backdrop-blur-xs"
           >
             <motion.div
               initial={{ scale: 0, rotate: -180 }}

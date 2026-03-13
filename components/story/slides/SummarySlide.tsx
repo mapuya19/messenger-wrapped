@@ -1,7 +1,6 @@
-'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { Button } from '@/components/ui/Button';
 import type { WrappedData } from '@/types';
 import { findLinguisticChampions } from '@/lib/utils/linguistic-utils';
@@ -42,7 +41,6 @@ export function SummarySlide({ wrappedData, onViewDashboard, groupPhotoUri }: Su
               transition={{ delay: 0.15, type: 'spring', stiffness: 200 }}
               className="flex justify-center"
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={groupPhotoUri}
                 alt="Group photo"

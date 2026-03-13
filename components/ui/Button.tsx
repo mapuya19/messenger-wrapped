@@ -1,14 +1,13 @@
-'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 // Exclude conflicting props from HTML button attributes
 type ExcludedProps = 'onAnimationStart' | 'onAnimationEnd' | 'onDrag' | 'onDragEnd' | 'onDragStart';
 type FilteredHTMLProps = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, ExcludedProps>;
 
 interface ButtonProps extends FilteredHTMLProps {
-  variant?: 'primary' | 'secondary' | 'outline';
+  variant?: 'primary' | 'secondary' | 'outline-solid';
   size?: 'sm' | 'md' | 'lg';
   children: React.ReactNode;
 }
@@ -21,12 +20,12 @@ export function Button({
   disabled,
   ...props
 }: ButtonProps) {
-  const baseStyles = 'font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-messenger-dark';
+  const baseStyles = 'font-semibold rounded-lg focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-offset-messenger-dark';
   
   const variants = {
     primary: 'bg-gradient-messenger text-white focus:ring-messenger-blue',
     secondary: 'bg-white/10 text-white focus:ring-white/50',
-    outline: 'border-2 border-messenger-blue text-messenger-blue focus:ring-messenger-blue',
+    'outline-solid': 'border-2 border-messenger-blue text-messenger-blue focus:ring-messenger-blue',
   };
   
   const sizes = {

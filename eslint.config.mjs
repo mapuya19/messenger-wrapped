@@ -1,4 +1,3 @@
-import nextPlugin from "@next/eslint-plugin-next";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
@@ -15,18 +14,12 @@ export default tseslint.config(
         },
       },
     },
-    plugins: {
-      "@next/next": nextPlugin,
-    },
     rules: {
-      ...nextPlugin.configs.recommended.rules,
-      ...nextPlugin.configs["core-web-vitals"].rules,
       "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/no-unused-vars": "warn",
     },
   },
   {
-    ignores: [".next/**", "node_modules/**", "out/**"],
+    ignores: ["node_modules/**", "dist/**"],
   }
 );
-
