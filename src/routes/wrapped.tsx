@@ -1,8 +1,9 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { useState, useEffect } from 'react';
+import { lazy, useState, useEffect, Suspense } from 'react';
 import { useChatData } from '@/contexts/ChatDataContext';
-import { StoryContainer } from '@/components/story/StoryContainer';
-import { DashboardView } from '@/components/dashboard/DashboardView';
+
+const StoryContainer = lazy(() => import('@/components/story/StoryContainer').then(m => ({ default: m.StoryContainer })));
+const DashboardView = lazy(() => import('@/components/dashboard/DashboardView').then(m => ({ default: m.DashboardView })));
 
 export const Route = createFileRoute('/wrapped')({
   component: WrappedPage,
@@ -27,14 +28,26 @@ function WrappedPage() {
     );
   }
 
+  const fallback = (
+    <div className="flex items-center justify-center h-screen bg-messenger-dark">
+      <p className="text-white/60">Loading...</p>
+    </div>
+  );
+
   if (showDashboard) {
-    return <DashboardView onBack={() => setShowDashboard(false)} />;
+    return (
+      <Suspense fallback={fallback}>
+        <DashboardView onBack={() => setShowDashboard(false)} />
+      </Suspense>
+    );
   }
 
   return (
-    <StoryContainer
-      onComplete={() => setShowDashboard(true)}
-      onExit={() => navigate({ to: '/' })}
-    />
+    <Suspense fallback={fallback}>
+      <StoryContainer
+        onComplete={() => setShowDashboard(true)}
+        onExit={() => navigate({ to: '/' })}
+      />
+    </Suspense>
   );
 }

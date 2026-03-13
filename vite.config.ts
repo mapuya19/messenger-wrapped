@@ -17,5 +17,15 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-router': ['@tanstack/react-router'],
+          'vendor-charts': ['recharts'],
+          'vendor-motion': ['motion'],
+          'vendor-utils': ['jszip', 'html-to-image'],
+        },
+      },
+    },
   },
 });
